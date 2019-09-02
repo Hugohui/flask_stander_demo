@@ -14,6 +14,7 @@
       |-- models
       |-- static
       |-- templates
+      |-- views
       |-- utils
       |   |-- __init__.py
       |   |-- json_response.py
