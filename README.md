@@ -2,6 +2,7 @@
 
 
 #### 目录
+```
 |-- python
       |-- .gitignore
       |-- README.md
@@ -18,3 +19,4 @@
       |   |-- json_response.py
       |   |-- request.py
       |   |-- util.py
+```
