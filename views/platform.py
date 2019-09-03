@@ -44,7 +44,11 @@ def update_info():
     更新应用
     """
     try:
-        data = []
+        _id = request.values.get('_id')
+        p_name = request.values.get('p_name')
+        p_logo = request.values.get('p_logo')
+        p_type = request.values.get('p_type')
+        data = PlatformModel.update_platform(_id, p_name, p_logo, p_type)
         return JsonResponse.response(data=data)
     except Exception as e:
         print(e)

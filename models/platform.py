@@ -35,6 +35,34 @@ class PlatformModel(object):
             return 1
 
     @classmethod
+    def update_platform(cls, _id, p_name, p_logo, p_type, **kargs):
+        """
+        更新应用
+        """
+        # 除当前修改的名称以外，是否还存在要修改的名称
+        data = platform_col.find({
+            "p_name": p_name,
+            "_id": {
+                "$ne": _id
+            }
+        })
+        if data.count() != 0:
+            return -1001
+        else:
+            platform_col.update({
+                "_id": _id
+            },
+            {
+                "$set": {
+                    "p_name": p_name,
+                    "p_logo": p_logo,
+                    "p_type": p_type,
+                    "update_time": Util.timeFormat()
+                }
+            })
+            return 1
+
+    @classmethod
     def get_list(cls):
         try:
             data = platform_col.aggregate([
