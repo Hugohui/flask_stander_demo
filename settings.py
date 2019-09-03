@@ -8,3 +8,6 @@
 
 IS_DUBUG = True
 PORT = 5203
+
+# MongoDB
+MONGO_HOST = "127.0.0.1" if IS_DUBUG else ""

@@ -12,7 +12,8 @@ class JsonResponse(object):
     'json response 类'
     code_dict = {
         0: [200, "失败"],
-        1: [200, "成功"]
+        1: [200, "成功"],
+        -1001: [200, "应用名称已存在"]
     }
 
     def __init__(self):
