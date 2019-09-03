@@ -48,8 +48,8 @@ def update_info():
         p_name = request.values.get('p_name')
         p_logo = request.values.get('p_logo')
         p_type = request.values.get('p_type')
-        data = PlatformModel.update_platform(_id, p_name, p_logo, p_type)
-        return JsonResponse.response(data=data)
+        result = PlatformModel.update_platform(_id, p_name, p_logo, p_type)
+        return JsonResponse.response(code=result, data=None)
     except Exception as e:
         print(e)
         return JsonResponse.response(code=0,message="系统内部错误")
