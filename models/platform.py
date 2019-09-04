@@ -39,28 +39,35 @@ class PlatformModel(object):
         """
         更新应用
         """
-        # 除当前修改的名称以外，是否还存在要修改的名称
-        data = platform_col.find({
-            "p_name": p_name,
-            "_id": {
-                "$ne": _id
-            }
-        })
-        if data.count() != 0:
-            return -1001
-        else:
-            platform_col.update({
-                "_id": _id
-            },
-            {
-                "$set": {
-                    "p_name": p_name,
-                    "p_logo": p_logo,
-                    "p_type": p_type,
-                    "update_time": Util.timeFormat()
+        try:
+            # 除当前修改的名称以外，是否还存在要修改的名称
+            data = platform_col.find({
+                "p_name": p_name,
+                "_id": {
+                    "$ne": _id
                 }
             })
-            return 1
+            if data.count() != 0:
+                return -1001
+            else:
+                data = platform_col.update({
+                    "_id": _id
+                },
+                {
+                    "$set": {
+                        "p_name": p_name,
+                        "p_logo": p_logo,
+                        "p_type": p_type,
+                        "update_time": Util.timeFormat()
+                    }
+                })
+                if data["ok"] == 1:
+                    return 1
+                else:
+                    return 0
+        except Exception as e:
+            print(e)
+            return 0
 
     @classmethod
     def get_list(cls):

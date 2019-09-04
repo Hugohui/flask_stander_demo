@@ -99,16 +99,20 @@ class TestsModel(object):
         改变实验状态
         """
         try:
-            test_col.update(
+            data = test_col.update(
                 {
                     "_id": t_id
                 },
                 {
                     "$set": {
-                        "t_status": int(status)
+                        "t_status": int(status),
+                        "update_time": Util.timeFormat()
                     }
             })
-            return 1
+            if data["ok"] == 1:
+                return 1
+            else:
+                return 0
         except Exception as e:
             print(e)
             return 0
