@@ -23,33 +23,21 @@ def get_platforms():
     except Exception as e:
         return JsonResponse.response(code=0,message="系统内部错误")
 
-@platform_view.route("/insert", methods=["POST"])
+@platform_view.route("/update", methods=["POST"])
 def add_platfrom():
     """
-    创建应用
+    创建/修改应用
     """
     try:
+        _id = request.values.get('p_id')
         p_name = request.values.get('p_name')
         p_logo = request.values.get('p_logo')
         p_type = request.values.get('p_type')
-        result = PlatformModel.insert_platform(p_name, p_logo, p_type)
+        if _id:
+            result = PlatformModel.update_platform(_id, p_name, p_logo, p_type)
+        else:
+            result = PlatformModel.insert_platform(p_name, p_logo, p_type)
         return JsonResponse.response(code=result,data=None)
-    except Exception as e:
-        print(e)
-        return JsonResponse.response(code=0,message="系统内部错误")
-
-@platform_view.route("/update",methods=["POST"])
-def update_info():
-    """
-    更新应用
-    """
-    try:
-        _id = request.values.get('_id')
-        p_name = request.values.get('p_name')
-        p_logo = request.values.get('p_logo')
-        p_type = request.values.get('p_type')
-        result = PlatformModel.update_platform(_id, p_name, p_logo, p_type)
-        return JsonResponse.response(code=result, data=None)
     except Exception as e:
         print(e)
         return JsonResponse.response(code=0,message="系统内部错误")
