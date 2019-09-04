@@ -52,7 +52,6 @@ def delete_platform():
     删除应用
     """
     try:
-        # p_id = request.get_json().get("p_id")
         p_id = Util.form_or_json().get("p_id")
         print(p_id)
         if not p_id:

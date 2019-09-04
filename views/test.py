@@ -8,6 +8,7 @@
 from flask import Blueprint, request
 from utils.json_response import JsonResponse
 from models.test import TestsModel
+from utils.util import Util
 
 test_view = Blueprint("test_view", __name__, url_prefix="/test")
 
@@ -31,11 +32,11 @@ def add_test():
     创建/修改实验
     """
     try:
-        p_id = request.values.get("p_id")
-        t_id = request.values.get("t_id")
-        t_name = request.values.get("t_name")
-        t_str = request.values.get("t_str")
-        t_desc = request.values.get("t_desc")
+        p_id = Util.form_or_json().get("p_id")
+        t_id = Util.form_or_json().get("t_id")
+        t_name = Util.form_or_json().get("t_name")
+        t_str = Util.form_or_json().get("t_str")
+        t_desc = Util.form_or_json().get("t_desc")
         if t_id:
             result = TestsModel.update_test_info(p_id, t_id, t_name, t_str, t_desc)
         else:
@@ -51,8 +52,8 @@ def toggle_status():
     修改实验状态
     """
     try:
-        t_id = request.values.get("t_id")
-        t_status = request.values.get("t_status")
+        t_id = Util.form_or_json().get("t_id")
+        t_status = Util.form_or_json().get("t_status")
         result = TestsModel.toggle_status(t_id, t_status)
         return JsonResponse.response(code=result)
     except Exception as e:
