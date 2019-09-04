@@ -11,8 +11,10 @@ from flask import jsonify
 class JsonResponse(object):
     'json response 类'
     code_dict = {
+        -1: [200, "系统内部错误"],
         0: [200, "失败"],
         1: [200, "成功"],
+        -1000: [200, "参数错误"],
         -1001: [200, "应用名称已存在"],
         -2001: [200, "实验名称已存在"]
     }

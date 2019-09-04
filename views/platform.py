@@ -10,6 +10,7 @@ from flask import Blueprint, request
 from utils.json_response import JsonResponse
 from models.platform import PlatformModel
 import json
+from utils.util import Util
 
 platform_view = Blueprint('platform_view', __name__, url_prefix='/platform')
 
@@ -30,10 +31,10 @@ def add_platfrom():
     创建/修改应用
     """
     try:
-        _id = request.get_json().get('p_id')
-        p_name = request.get_json().get('p_name')
-        p_logo = request.get_json().get('p_logo')
-        p_type = request.get_json().get('p_type')
+        _id = Util.form_or_json().get('p_id')
+        p_name = Util.form_or_json().get('p_name')
+        p_logo = Util.form_or_json().get('p_logo')
+        p_type = Util.form_or_json().get('p_type')
         if not p_name or not p_type or not p_logo:
             return JsonResponse.response(code=0, message="参数错误")
         if _id:
@@ -44,3 +45,21 @@ def add_platfrom():
     except Exception as e:
         print(e)
         return JsonResponse.response(code=0,message="系统内部错误")
+
+@platform_view.route("/delete", methods=["POST"])
+def delete_platform():
+    """
+    删除应用
+    """
+    try:
+        # p_id = request.get_json().get("p_id")
+        p_id = Util.form_or_json().get("p_id")
+        print(p_id)
+        if not p_id:
+            return JsonResponse.response(code=-1000)
+        else:
+            result = PlatformModel.delete_platform(p_id)
+            return JsonResponse.response(code=result)
+    except Exception as e:
+        print(e)
+        return JsonResponse.response(code=-1)

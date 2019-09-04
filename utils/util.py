@@ -7,6 +7,7 @@
 """
 
 from datetime import datetime
+from flask import request
 
 class Util(object):
     '工具类'
@@ -21,3 +22,11 @@ class Util(object):
         except Exception as e:
             print(e)
             return datetime.now()
+
+    @classmethod
+    def form_or_json(cls):
+        """
+        获取request参数，json或者form
+        """
+        data = request.get_json(silent=True)
+        return data if data is not None else request.values

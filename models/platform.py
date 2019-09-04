@@ -8,6 +8,7 @@ from utils.util import Util
 import uuid
 
 platform_col  = db["platforms"]
+test_col = db["tests"]
 
 class PlatformModel(object):
     '应用Model'
@@ -30,7 +31,8 @@ class PlatformModel(object):
                 "p_name": p_name,
                 "p_logo": p_logo,
                 "p_type": p_type,
-                "create_time": Util.timeFormat()
+                "create_time": Util.timeFormat(),
+                "deleted": 0
             })
             return 1
 
@@ -72,44 +74,41 @@ class PlatformModel(object):
     @classmethod
     def get_list(cls):
         try:
-            data = platform_col.aggregate([
-                {
-                    "$lookup": {
-                        "from": "tests",
-                        "localField": "_id",
-                        "foreignField": "p_id",
-                        "as": "tests"
-                    }
-                },
-                {
-                    "$unwind": {
-                        "path": "$tests",
-                        "preserveNullAndEmptyArrays": True
-                    }
-                },
-                {
-                    "$group": {
-                        "_id": "$_id",
-                        "p_id": {
-                            "$first": "$_id"
-                        },
-                        "p_name": {
-                            "$first": "$p_name"
-                        },
-                        "p_logo": {
-                            "$first": "$p_logo"
-                        },
-                        "p_type": {
-                            "$first": "$p_type"
-                        },
-                        "tests_num": {
-                            "$sum": 1
-                        }
-                    }
-                }
-            ])
-            list_data = list(data)
-            return list_data
+            data = platform_col.find({
+                "deleted": 0
+            })
+            results = []
+            for item in data:
+                print(item["_id"])
+                results.append({
+                    "p_id": item["_id"],
+                    "p_name": item["p_name"],
+                    "p_logo": item["p_logo"],
+                    "p_type": item["p_type"],
+                    "tests_num": test_col.find({"p_id": item["_id"]}).count()
+                })
+            return results
         except Exception as e:
             print(e)
             return []
+
+    @classmethod
+    def delete_platform(cls, p_id):
+        """
+        软删除应用
+        """
+        try:
+            data = platform_col.update({
+                "_id": p_id
+            },{
+                "$set": {
+                    "deleted": 1
+                }
+            })
+            if data["ok"] == 1:
+                return 1
+            else:
+                return 0
+        except Exception as e: 
+            print(e)
+            return -1
