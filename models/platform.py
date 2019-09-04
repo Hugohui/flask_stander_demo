@@ -90,6 +90,9 @@ class PlatformModel(object):
                 {
                     "$group": {
                         "_id": "$_id",
+                        "p_id": {
+                            "$first": "$_id"
+                        },
                         "p_name": {
                             "$first": "$p_name"
                         },

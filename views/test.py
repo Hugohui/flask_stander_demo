@@ -36,6 +36,7 @@ def add_test():
         t_name = request.values.get("t_name")
         t_str = request.values.get("t_str")
         t_desc = request.values.get("t_desc")
+        print(t_id)
         if t_id:
             result = TestsModel.update_test_info(p_id, t_id, t_name, t_str, t_desc)
         else:

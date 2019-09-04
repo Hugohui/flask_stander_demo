@@ -22,9 +22,26 @@ class TestsModel(object):
         获取实验
         """
         try:
-            data = test_col.find({
-                "p_id": p_id
-            })
+            # data = test_col.find({
+            #     "p_id": p_id
+            # })
+
+            data = test_col.aggregate([
+                {
+                    "$match": {
+                        "p_id": p_id
+                    }
+                },
+                {
+                    "$lookup": {
+                        "from": "stragegies",
+                        "localField": "_id",
+                        "foreignField": "t_id",
+                        "as": "strages"
+                    }
+                }
+            ])
+
             return list(data)
         except Exception as e:
             print(e)
