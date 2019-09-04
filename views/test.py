@@ -23,7 +23,7 @@ def get_tests():
         return JsonResponse.response(data=results)
     except Exception as e:
         print(e)
-        return JsonResponse.response(code=0, message="系统内部错误")
+        return JsonResponse.response(code=-1)
 
 
 @test_view.route("/update", methods=["POST"])
@@ -44,7 +44,7 @@ def add_test():
         return JsonResponse.response(code=result)
     except Exception as e:
         print(e)
-        return JsonResponse.response(code=0, message="系统内部错误")
+        return JsonResponse.response(code=-1)
 
 @test_view.route("/toggle_status", methods=["POST"])
 def toggle_status():
@@ -58,4 +58,18 @@ def toggle_status():
         return JsonResponse.response(code=result)
     except Exception as e:
         print(e)
-        return JsonResponse.response(code=0, message="系统内部错误")
+        return JsonResponse.response(code=-1)
+
+@test_view.route("/search", methods=["POST"])
+def search():
+    """
+    搜索
+    """
+    try:
+        p_id = Util.form_or_json().get("p_id")
+        search = Util.form_or_json().get("search")
+        result = TestsModel.search(p_id, search)
+        return JsonResponse.response(data=result)
+    except Exception as e:
+        print(e)
+        return JsonResponse.response(code=-1)

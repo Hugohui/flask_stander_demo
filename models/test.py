@@ -127,3 +127,40 @@ class TestsModel(object):
         except Exception as e:
             print(e)
             return 0
+
+    @classmethod
+    def search(cls, p_id, search):
+        """
+        实验Id/实验名称模糊查询
+        """
+        try:
+            data = test_col.find({
+                "p_id": p_id,
+                "$or": [
+                    {
+                        "_id": {
+                            "$regex": search
+                        }
+                    },
+                    {
+                        "t_name": {
+                            "$regex": search
+                        }
+                    }
+                ]
+            })
+            results = []
+            for item in data:
+                results.append({
+                    "t_id": item["_id"],
+                    "t_name": item["t_name"],
+                    "t_desc": item["t_desc"],
+                    "t_str": item["t_str"],
+                    "t_status": item["t_status"],
+                    "bucket_num": bucket_col.find({"t_id": item["_id"]}).count()
+                })
+            return results
+            return []
+        except Exception as e:
+            print(e)
+            return []

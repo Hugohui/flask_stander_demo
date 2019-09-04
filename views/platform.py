@@ -23,7 +23,7 @@ def get_platforms():
         result = PlatformModel.get_list()
         return JsonResponse.response(data=result)
     except Exception as e:
-        return JsonResponse.response(code=0,message="系统内部错误")
+        return JsonResponse.response(code=-1)
 
 @platform_view.route("/update", methods=["POST"])
 def add_platfrom():
@@ -44,7 +44,7 @@ def add_platfrom():
         return JsonResponse.response(code=result,data=None)
     except Exception as e:
         print(e)
-        return JsonResponse.response(code=0,message="系统内部错误")
+        return JsonResponse.response(code=-1)
 
 @platform_view.route("/delete", methods=["POST"])
 def delete_platform():
