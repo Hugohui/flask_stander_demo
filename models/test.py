@@ -92,3 +92,23 @@ class TestsModel(object):
         except Exception as e:
             print(e)
             return 0
+
+    @classmethod
+    def toggle_status(cls, t_id, status):
+        """
+        改变实验状态
+        """
+        try:
+            test_col.update(
+                {
+                    "_id": t_id
+                },
+                {
+                    "$set": {
+                        "t_status": int(status)
+                    }
+            })
+            return 1
+        except Exception as e:
+            print(e)
+            return 0

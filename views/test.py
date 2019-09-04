@@ -44,3 +44,17 @@ def add_test():
     except Exception as e:
         print(e)
         return JsonResponse.response(code=0, message="系统内部错误")
+
+@test_view.route("/toggle_status", methods=["POST"])
+def toggle_status():
+    """
+    修改实验状态
+    """
+    try:
+        t_id = request.values.get("t_id")
+        t_status = request.values.get("t_status")
+        result = TestsModel.toggle_status(t_id, t_status)
+        return JsonResponse.response(code=result)
+    except Exception as e:
+        print(e)
+        return JsonResponse.response(code=0, message="系统内部错误")
