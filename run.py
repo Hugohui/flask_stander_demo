@@ -11,12 +11,14 @@ from flask import Flask
 # 导入视图
 from views.platform import platform_view
 from views.user import user_view
+from views.test import test_view
 
 app = Flask(__name__)
 
 # 注册蓝图
 app.register_blueprint(platform_view)
 app.register_blueprint(user_view)
+app.register_blueprint(test_view)
 
 
 @app.route('/')

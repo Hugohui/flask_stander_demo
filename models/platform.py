@@ -10,7 +10,7 @@ import uuid
 platform_col  = db["platforms"]
 
 class PlatformModel(object):
-
+    '应用Model'
     def __init__(self):
         pass
     
