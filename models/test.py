@@ -17,7 +17,25 @@ class TestsModel(object):
         pass
 
     @classmethod
+    def get_tests(cls, p_id):
+        """
+        获取实验
+        """
+        try:
+            data = test_col.find({
+                "p_id": p_id
+            })
+            return list(data)
+        except Exception as e:
+            print(e)
+            return []
+
+
+    @classmethod
     def add_test(cls, p_id, t_name, t_str, t_desc):
+        """
+        创建实验
+        """
         try:
             data = test_col.find({
                 "p_id": p_id,

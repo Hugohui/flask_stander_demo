@@ -11,6 +11,20 @@ from models.test import TestsModel
 
 test_view = Blueprint("test_view", __name__, url_prefix="/test")
 
+@test_view.route("/list", methods=["GET"])
+def get_tests():
+    """
+    获取实验列表
+    """
+    try:
+        p_id = request.args.get("p_id")
+        results = TestsModel.get_tests(p_id)
+        return JsonResponse.response(data=results)
+    except Exception as e:
+        print(e)
+        return JsonResponse.response(code=0, message="系统内部错误")
+
+
 @test_view.route("/insert", methods=["POST"])
 def add_test():
     """
