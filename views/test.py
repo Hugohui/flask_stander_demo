@@ -41,3 +41,19 @@ def add_test():
         print(e)
         return JsonResponse.response(code=0, message="系统内部错误")
 
+@test_view.route("/update_info", methods=["POST"])
+def update_info():
+    """
+    更新实验信息
+    """
+    try:
+        p_id = request.values.get("p_id")
+        t_id = request.values.get("t_id")
+        t_name = request.values.get("t_name")
+        t_str = request.values.get("t_str")
+        t_desc = request.values.get("t_desc")
+        result = TestsModel.update_test_info(p_id, t_id, t_name, t_str, t_desc)
+        return JsonResponse.response(code=result)
+    except Exception as e:
+        print(e)
+        return JsonResponse.response(code=0, message="系统内部错误")

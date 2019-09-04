@@ -58,3 +58,37 @@ class TestsModel(object):
         except Exception as e:
             print(e)
             return 0
+
+    @classmethod
+    def update_test_info(cls, p_id, t_id, t_name, t_str, t_desc):
+        """
+        修改实验信息
+        """
+        try:
+            data = test_col.find({
+                "p_id": p_id,
+                "t_name": t_name,
+                "t_id": {
+                    "$ne": t_id
+                }
+            })
+            if len(list(data)) != 0:
+                return -2001
+            else:
+                print(t_name)
+                test_col.update({
+                    "p_id": p_id,
+                    "_id": t_id
+                },
+                {
+                    "$set": {
+                        "t_name": t_name,
+                        "t_str": t_str,
+                        "t_desc": t_desc,
+                        "update_time": Util.timeFormat()
+                    }
+                })
+                return 1
+        except Exception as e:
+            print(e)
+            return 0
