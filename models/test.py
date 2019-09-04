@@ -10,6 +10,7 @@ import uuid
 from utils.util import Util
 
 test_col = db["tests"]
+bucket_col = db["buckets"]
 
 class TestsModel(object):
     '实验Model类'
@@ -22,27 +23,20 @@ class TestsModel(object):
         获取实验
         """
         try:
-            # data = test_col.find({
-            #     "p_id": p_id
-            # })
-
-            data = test_col.aggregate([
-                {
-                    "$match": {
-                        "p_id": p_id
-                    }
-                },
-                {
-                    "$lookup": {
-                        "from": "stragegies",
-                        "localField": "_id",
-                        "foreignField": "t_id",
-                        "as": "strages"
-                    }
-                }
-            ])
-
-            return list(data)
+            data = test_col.find({
+                "p_id": p_id
+            })
+            results = []
+            for item in data:
+                results.append({
+                    "t_id": item["_id"],
+                    "t_name": item["t_name"],
+                    "t_desc": item["t_desc"],
+                    "t_str": item["t_str"],
+                    "t_status": item["t_status"],
+                    "bucket_num": bucket_col.find({"t_id": item["_id"]}).count()
+                })
+            return results
         except Exception as e:
             print(e)
             return []
