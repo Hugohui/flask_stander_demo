@@ -18,6 +18,50 @@ class StragegyModel(object):
         pass
 
     @classmethod
+    def get_stragegy(cls, t_id):
+        """
+        策略list
+        """
+        try:
+            data = stragegy_col.aggregate([
+                {
+                    "$match": {
+                        "t_id": t_id
+                    }
+                },
+                {
+                    "$lookup": {
+                        "from": "buckets",
+                        "localField": "s_id",
+                        "foreignField": "s_id",
+                        "as": "buckets"
+                    }
+                },
+                {
+                    "$unwind": { 
+                        "path": "$buckets",
+                        "preserveNullAndEmptyArrays": True
+                    }
+                }
+            ])
+            data_list = list(data)
+            data_len = len(data_list)
+            result = []
+            for item in range(data_len):
+                result.append({
+                    "b_id": data_list[item].get("_id"),
+                    "s_id": data_list[item].get("s_id"),
+                    "section_min": data_list[item].get("buckets").get("section_min"),
+                    "section_max": data_list[item].get("buckets").get("section_max"),
+                    "s_name": data_list[item].get("s_name"),
+                    "s_desc": data_list[item].get("s_desc")
+                })
+            return result
+        except Exception as e:
+            print(e)
+            return 0
+
+    @classmethod
     def pre_check(cls, t_id, s_name):
         """
         提交前检查策略是否存在

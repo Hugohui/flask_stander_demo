@@ -13,6 +13,22 @@ from models.stragegy import StragegyModel
 stragegy_view = Blueprint("stragegy_view", __name__, url_prefix="/stragegy")
 
 
+@stragegy_view.route("/list", methods=["POST"])
+def get_stragegy():
+    """
+    获取策略
+    """
+    try:
+        t_id = Util.form_or_json().get("t_id")
+        if not t_id:
+            return JsonResponse.response(code=-1000)
+        result = StragegyModel.get_stragegy(t_id)
+        return JsonResponse.response(data=result)
+    except Exception as e:
+        print(e)
+        return JsonResponse.response(code=-1)
+
+
 @stragegy_view.route("/pre_check", methods=["POST"])
 def pre_check():
     """
