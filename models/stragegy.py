@@ -59,7 +59,7 @@ class StragegyModel(object):
                 {
                     "$lookup": {
                         "from": "buckets",
-                        "localField": "_id",
+                        "localField": "s_id",
                         "foreignField": "s_id",
                         "as": "buckets"
                     }
@@ -75,23 +75,30 @@ class StragegyModel(object):
             # 如果有策略则进行判断（区间是否有重合）
             data_list = list(data)
             data_len = len(data_list)
+            s_id = ""
             if  data_len> 0:
                 for item in range(data_len):
                     temp_min = int(data_list[item].get("buckets").get("section_min"))
                     temp_max = int(data_list[item].get("buckets").get("section_max"))
                     if max(temp_min, int(section_min)) <= min(temp_max, int(section_max)):
-                        return -3002
-            # 如果没有策略则直接插入
-            insert_res = stragegy_col.insert({
-                "_id": str(uuid.uuid1()),
-                "t_id": t_id,
-                "s_name": s_name,
-                "s_desc": s_desc,
-                "create_time": Util.timeFormat()
-            })
+                        return -3002          
+                    if s_name == data_list[item].get("s_name"):
+                        s_id = data_list[item].get("_id")
+
+            if s_id == "":
+                # 如果没有策略则直接插入
+                _id = str(uuid.uuid1())
+                s_id = stragegy_col.insert({
+                    "_id": _id,
+                    "s_id": _id,
+                    "t_id": t_id,
+                    "s_name": s_name,
+                    "s_desc": s_desc,
+                    "create_time": Util.timeFormat()
+                })
             bucket_col.insert({
                 "_id": str(uuid.uuid1()),
-                "s_id": insert_res,
+                "s_id": s_id,
                 "t_id": t_id,
                 "section_min": section_min,
                 "section_max": section_max,
