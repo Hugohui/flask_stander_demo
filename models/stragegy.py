@@ -153,3 +153,57 @@ class StragegyModel(object):
         except Exception as e:
             print(e)
             return 0
+
+    @classmethod
+    def update_stragegy(cls, t_id, s_id, b_id, s_name, s_desc, section_min, section_max):
+        """
+        更新策略
+        """
+        try: 
+            # 更新策略描述
+            stragegy_col.update({
+                "s_id": s_id,
+                "s_desc": {
+                    "$ne": s_desc
+                }
+            },{
+                "$set": {
+                    "s_desc": s_desc,
+                    "update_time": Util.timeFormat()
+                }
+            })
+            # 更新分桶
+            bucket_data = bucket_col.find({
+                "s_id": s_id
+            })
+            for item in bucket_data:
+                temp_min = int(item.get("section_min"))
+                temp_max = int(item.get("section_max"))
+                if max(temp_min, int(section_min)) <= min(temp_max, section_max) and item.get("_id") != b_id:
+                    return -3002
+            bucket_col.update({
+                "s_id": s_id,
+                "_id": b_id,
+                "$or": [
+                    {
+                        "section_min": {
+                            "$ne": section_min
+                        }
+                    },
+                    {
+                        "section_max": {
+                            "$ne": section_max
+                        }
+                    }
+                ]
+            },{
+                "$set": {
+                    "section_min": section_min,
+                    "section_max": section_max,
+                    "update_time": Util.timeFormat()
+                }
+            })
+            return 1
+        except Exception as e:
+            print(e)
+            return 0

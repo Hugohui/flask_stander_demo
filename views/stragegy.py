@@ -54,6 +54,7 @@ def update_stragegy():
     """
     try:
         s_id = Util.form_or_json().get("s_id")
+        b_id = Util.form_or_json().get("b_id")
         t_id = Util.form_or_json().get("t_id")
         s_name = Util.form_or_json().get("s_name")
         s_desc = Util.form_or_json().get("s_desc")
@@ -62,8 +63,9 @@ def update_stragegy():
 
         if not t_id or not s_name or not s_desc or not section_min or not section_max or int(section_min) > int(section_max):
             return JsonResponse.response(code=-1000)
-        if s_id:
+        if s_id and b_id:
             # 修改
+            result = StragegyModel.update_stragegy(t_id, s_id, b_id, s_name, s_desc, section_min, section_max)
             return JsonResponse.response(code=result)
         else:
             # 新增
