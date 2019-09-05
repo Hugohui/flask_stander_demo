@@ -5,7 +5,7 @@
 :date: 2019-09-05
 """
 
-from flask import Blueprint
+from flask import Blueprint,request
 from utils.util import Util
 from utils.json_response import JsonResponse
 from models.stragegy import StragegyModel
@@ -13,13 +13,13 @@ from models.stragegy import StragegyModel
 stragegy_view = Blueprint("stragegy_view", __name__, url_prefix="/stragegy")
 
 
-@stragegy_view.route("/list", methods=["POST"])
+@stragegy_view.route("/list", methods=["GET"])
 def get_stragegy():
     """
     获取策略
     """
     try:
-        t_id = Util.form_or_json().get("t_id")
+        t_id = request.args.get("t_id")
         if not t_id:
             return JsonResponse.response(code=-1000)
         result = StragegyModel.get_stragegy(t_id)
