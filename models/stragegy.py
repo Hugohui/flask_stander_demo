@@ -1,0 +1,104 @@
+# coding: utf-8
+"""
+策略相关Model
+:author: huiwenhua
+:date: 2019-09-05
+"""
+
+from models import db
+import uuid
+from utils.util import Util
+
+stragegy_col = db["stragegies"]
+bucket_col = db["buckets"]
+
+class StragegyModel(object):
+    '策略Model类'
+    def __init__(self):
+        pass
+
+    @classmethod
+    def pre_check(cls, t_id, s_name):
+        """
+        提交前检查策略是否存在
+        """
+        try:
+            data = stragegy_col.find({
+                "t_id": t_id,
+                "s_name": s_name
+            })
+            result = []
+            for item in data:
+                bucket_data = bucket_col.find_one({"s_id": item.get("_id")})
+                result.append({
+                    "section_min": bucket_data.get("section_min"),
+                    "section_max": bucket_data.get("section_max")
+                })
+            if data != 0:
+                return result
+            else:
+                return 1
+        except Exception as e:
+            print(e)
+            return 0
+
+    @classmethod
+    def insert_stragegy(cls, t_id, s_name, s_desc, section_min, section_max):
+        """
+        新增策略
+        """
+        try:
+            # 分桶区间逻辑判
+            # 查询实验的所有策略
+            data = stragegy_col.aggregate([
+                {
+                    "$match": {
+                        "t_id": t_id
+                    }
+                },
+                {
+                    "$lookup": {
+                        "from": "buckets",
+                        "localField": "_id",
+                        "foreignField": "s_id",
+                        "as": "buckets"
+                    }
+                },
+                {
+                    "$unwind": { 
+                        "path": "$buckets",
+                        "preserveNullAndEmptyArrays": True
+                    }
+                }
+            ])
+
+            # 如果有策略则进行判断（区间是否有重合）
+            data_list = list(data)
+            data_len = len(data_list)
+            if  data_len> 0:
+                for item in range(data_len):
+                    temp_min = int(data_list[item].get("buckets").get("section_min"))
+                    temp_max = int(data_list[item].get("buckets").get("section_max"))
+                    if max(temp_min, int(section_min)) <= min(temp_max, int(section_max)):
+                        return -3002
+            # 如果没有策略则直接插入
+            insert_res = stragegy_col.insert({
+                "_id": str(uuid.uuid1()),
+                "t_id": t_id,
+                "s_name": s_name,
+                "s_desc": s_desc,
+                "create_time": Util.timeFormat()
+            })
+            bucket_col.insert({
+                "_id": str(uuid.uuid1()),
+                "s_id": insert_res,
+                "t_id": t_id,
+                "section_min": section_min,
+                "section_max": section_max,
+                "create_time": Util.timeFormat()
+            })
+            return 1
+            
+        except Exception as e:
+            print(e)
+            return 0

@@ -12,6 +12,7 @@ from flask import Flask
 from views.platform import platform_view
 from views.user import user_view
 from views.test import test_view
+from views.stragegy import stragegy_view
 
 app = Flask(__name__)
 
@@ -19,6 +20,7 @@ app = Flask(__name__)
 app.register_blueprint(platform_view)
 app.register_blueprint(user_view)
 app.register_blueprint(test_view)
+app.register_blueprint(stragegy_view)
 
 
 @app.route('/')
