@@ -83,6 +83,8 @@ def delete():
     try:
         b_id = Util.form_or_json().get("b_id")
         s_id = Util.form_or_json().get("s_id")
+        if not b_id or not s_id:
+            return JsonResponse.response(code=-1000)
         result = StragegyModel.delete(s_id, b_id)
         return JsonResponse.response(code=result)
     except Exception as e:
