@@ -207,3 +207,21 @@ class StragegyModel(object):
         except Exception as e:
             print(e)
             return 0
+
+    @classmethod
+    def delete(cls, s_id, b_id):
+        """
+        删除分桶
+        """
+        try:
+            bucket_col.remove({
+                "_id": b_id
+            })
+            if bucket_col.find({"s_id": s_id}).count() == 0:
+                stragegy_col.remove({
+                    "s_id": s_id
+                })
+            return 1
+        except Exception as e:
+            print(e)
+            return 0

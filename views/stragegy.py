@@ -74,3 +74,17 @@ def update_stragegy():
     except Exception as e:
         print(e)
         return JsonResponse.response(code=-1)
+
+@stragegy_view.route("/delete", methods=["POST"])
+def delete():
+    """
+    删除策略
+    """
+    try:
+        b_id = Util.form_or_json().get("b_id")
+        s_id = Util.form_or_json().get("s_id")
+        result = StragegyModel.delete(s_id, b_id)
+        return JsonResponse.response(code=result)
+    except Exception as e:
+        print(e)
+        return JsonResponse.response(code=-1)
