@@ -78,7 +78,7 @@ class StragegyModel(object):
                     "section_min": bucket_data.get("section_min"),
                     "section_max": bucket_data.get("section_max")
                 })
-            if data != 0:
+            if len(result) != 0:
                 return result
             else:
                 return 1

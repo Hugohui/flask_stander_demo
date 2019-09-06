@@ -37,6 +37,8 @@ def pre_check():
     try:
         t_id = Util.form_or_json().get("t_id")
         s_name = Util.form_or_json().get("s_name")
+        if not t_id or not s_name:
+            return JsonResponse.response(-1000)
         result = StragegyModel.pre_check(t_id, s_name)
         if result == 1:
             return JsonResponse.response(code=result)
