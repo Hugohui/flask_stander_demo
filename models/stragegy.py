@@ -49,7 +49,7 @@ class StragegyModel(object):
             result = []
             for item in range(data_len):
                 result.append({
-                    "b_id": data_list[item].get("_id"),
+                    "b_id": data_list[item].get("buckets").get("_id"),
                     "s_id": data_list[item].get("s_id"),
                     "section_min": data_list[item].get("buckets").get("section_min"),
                     "section_max": data_list[item].get("buckets").get("section_max"),
