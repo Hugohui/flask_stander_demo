@@ -37,6 +37,8 @@ def add_test():
         t_name = Util.form_or_json().get("t_name")
         t_str = Util.form_or_json().get("t_str")
         t_desc = Util.form_or_json().get("t_desc")
+        if not p_id or not t_name:
+            return JsonResponse.response(code=-1000)
         if t_id:
             result = TestsModel.update_test_info(p_id, t_id, t_name, t_str, t_desc)
         else:

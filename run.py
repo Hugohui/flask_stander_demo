@@ -38,6 +38,14 @@ def before_request():
         request_sign = request.args.get("sign", '')
         request_website_id = request.args.get("website_id", '')
 
+        print("cookies_tmp_code===",cookies_tmp_code)
+        print("cookies_website_id===",cookies_website_id)
+
+        print("request_tmp_code===",request_tmp_code)
+        print("request_sign===",request_sign)
+        print("request_website_id===",request_website_id)
+
+
         # 优先判断request_code、cookies_code
         if request_tmp_code:
             if request_sign == sign_md5(code=request_tmp_code):
