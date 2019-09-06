@@ -63,7 +63,7 @@ def update_stragegy():
         section_min = Util.form_or_json().get("section_min")
         section_max = Util.form_or_json().get("section_max")
 
-        if not t_id or not s_name or not s_desc or not section_min or not section_max or int(section_min) > int(section_max):
+        if not t_id or not s_name or not s_desc or section_min == None or section_max == None or int(section_min) > int(section_max):
             return JsonResponse.response(code=-1000)
         if s_id and b_id:
             # 修改
