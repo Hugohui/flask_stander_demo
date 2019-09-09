@@ -79,17 +79,14 @@ class TestsModel(object):
             data = test_col.find({
                 "p_id": p_id,
                 "t_name": t_name,
-                "t_id": {
-                    "$ne": t_id
-                }
+                
             })
-            if len(list(data)) != 0:
-                return -2001
-            else:
-                print(t_name)
-                test_col.update({
+            test_col.update({
                     "p_id": p_id,
-                    "_id": t_id
+                    "_id": t_id,
+                    "t_id": {
+                        "$ne": t_id
+                    }
                 },
                 {
                     "$set": {
@@ -99,7 +96,7 @@ class TestsModel(object):
                         "update_time": Util.timeFormat()
                     }
                 })
-                return 1
+            return 1
         except Exception as e:
             print(e)
             return 0
