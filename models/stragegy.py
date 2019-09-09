@@ -54,7 +54,7 @@ class StragegyModel(object):
                     "section_min": data_list[item].get("buckets").get("section_min"),
                     "section_max": data_list[item].get("buckets").get("section_max"),
                     "s_name": data_list[item].get("s_name"),
-                    "s_desc": data_list[item].get("s_desc")
+                    "s_desc": data_list[item].get("buckets").get("s_desc")
                 })
             return result
         except Exception as e:
@@ -124,8 +124,8 @@ class StragegyModel(object):
                 for item in range(data_len):
                     temp_min = int(data_list[item].get("buckets").get("section_min"))
                     temp_max = int(data_list[item].get("buckets").get("section_max"))
-                    if max(temp_min, int(section_min)) <= min(temp_max, int(section_max)) and data_list[item].get("s_name") == s_name:
-                        return -3002          
+                    if max(temp_min, int(section_min)) <= min(temp_max, int(section_max)):
+                            return -3002
                     if s_name == data_list[item].get("s_name"):
                         s_id = data_list[item].get("_id")
 
@@ -137,13 +137,13 @@ class StragegyModel(object):
                     "s_id": _id,
                     "t_id": t_id,
                     "s_name": s_name,
-                    "s_desc": s_desc,
                     "create_time": Util.timeFormat()
                 })
             bucket_col.insert({
                 "_id": str(uuid.uuid1()),
                 "s_id": s_id,
                 "t_id": t_id,
+                "s_desc": s_desc,
                 "section_min": section_min,
                 "section_max": section_max,
                 "create_time": Util.timeFormat()
@@ -174,14 +174,17 @@ class StragegyModel(object):
             })
             # 更新分桶
             bucket_data = bucket_col.find({
-                "s_id": s_id
+                "t_id": t_id,
+                "_id": {
+                    "$ne": b_id
+                }
             })
             for item in bucket_data:
                 temp_min = int(item.get("section_min"))
                 temp_max = int(item.get("section_max"))
-                if max(temp_min, int(section_min)) <= min(temp_max, section_max) and item.get("_id") != b_id:
+                if max(temp_min, int(section_min)) <= min(temp_max, section_max):
                     return -3002
-            bucket_col.update({
+            data = bucket_col.update({
                 "s_id": s_id,
                 "_id": b_id,
                 "$or": [
@@ -194,16 +197,22 @@ class StragegyModel(object):
                         "section_max": {
                             "$ne": section_max
                         }
+                    },
+                    {
+                        "s_desc": {
+                            "$ne": s_desc
+                        }
                     }
                 ]
             },{
                 "$set": {
+                    "s_desc": s_desc,
                     "section_min": section_min,
                     "section_max": section_max,
                     "update_time": Util.timeFormat()
                 }
             })
-            return 1
+            return 1 if data.get("ok") == 1 else 0                
         except Exception as e:
             print(e)
             return 0
