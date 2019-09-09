@@ -21,3 +21,18 @@
       |   |-- request.py
       |   |-- util.py
 ```
+
+
+#### gRPC
+- install gRPC
+      ```python
+      python -m pip install grpcio
+      ```
+- install gRPC tools
+      ```python
+      python -m pip install grpcio-tools
+      ```
+- generate gRPC code
+      ```python
+      python -m grpc_tools.protoc -I./grpc --python_out=. --grpc_python_out=. ./grpc/stragegy.proto
+      ```
