@@ -34,5 +34,5 @@
       ```
 - generate gRPC code
       ```python
-      python -m grpc_tools.protoc -I./grpc --python_out=. --grpc_python_out=. ./grpc/stragegy.proto
+      python -m grpc_tools.protoc -I ./protos/ --python_out=. --grpc_python_out=. ./protos/stragegy.proto
       ```
