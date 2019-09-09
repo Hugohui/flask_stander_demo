@@ -124,7 +124,7 @@ class StragegyModel(object):
                 for item in range(data_len):
                     temp_min = int(data_list[item].get("buckets").get("section_min"))
                     temp_max = int(data_list[item].get("buckets").get("section_max"))
-                    if max(temp_min, int(section_min)) <= min(temp_max, int(section_max)):
+                    if max(temp_min, int(section_min)) <= min(temp_max, int(section_max)) and data_list[item].get("s_name") == s_name:
                         return -3002          
                     if s_name == data_list[item].get("s_name"):
                         s_id = data_list[item].get("_id")
