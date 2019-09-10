@@ -23,11 +23,18 @@ class LogModel(object):
         :param user_id: user_id
         """
         try:
-            log_col.find({
+            print(user_id)
+            data = log_col.find({
                 "user_id": user_id
             })
-
-            result = list(data)
+            result = []
+            for item in data:
+                result.append({
+                    "create_time": item.get("create_time"),
+                    "title": item.get("l_title"),
+                    "content": item.get("l_content"),
+                    "user_id": item.get("user_id")
+                })
             return result
         except Exception as e:
             print(e)
