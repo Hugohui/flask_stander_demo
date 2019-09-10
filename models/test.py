@@ -161,3 +161,22 @@ class TestsModel(object):
         except Exception as e:
             print(e)
             return []
+
+    @classmethod
+    def get_str_by_id(cls, test_id):
+        """根据实验ID获取加盐字符
+        :param test_id: 实验ID
+        """
+        try:
+            data = test_col.find_one({
+                "_id": test_id
+            },{
+                "t_str": 1
+            })
+            if data:
+                return data.get("t_str")
+            else:
+                return 0
+        except Exception as e:
+            print(e)
+            return 0

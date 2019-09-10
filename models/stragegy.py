@@ -234,3 +234,29 @@ class StragegyModel(object):
         except Exception as e:
             print(e)
             return 0
+
+    @classmethod
+    def get_stragegy_id(cls, test_id, md5_value):
+        """根据实验ID和md5值获取策略ID
+        :param test_id: 实验ID
+        :param md5_value: md5值
+        """
+        try:
+            print(test_id)
+            print(md5_value)
+            data = bucket_col.find_one({
+                "t_id": test_id,
+                "section_min": {
+                    "$lte": md5_value
+                },
+                "section_max": {
+                    "$gte": md5_value
+                }
+            })
+            if data:
+                return data.get("s_id")
+            else:
+                return 0
+        except Exception as e:
+            print(e)
+            return 0            
