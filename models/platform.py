@@ -4,11 +4,13 @@
 """
 
 from models import db
+from models.log import LogModel
 from utils.util import Util
 import uuid
 
 platform_col  = db["platforms"]
 test_col = db["tests"]
+log_col = db["logs"]
 
 class PlatformModel(object):
     '应用Model'
@@ -16,28 +18,35 @@ class PlatformModel(object):
         pass
     
     @classmethod
-    def insert_platform(cls, p_name, p_logo, p_type, **kargs):
+    def insert_platform(cls, p_name, p_logo, p_type,user_id, **kargs):
         """
         添加应用
         """
-        data = platform_col.find({
-            "p_name": p_name
-        })
-        if data.count() != 0:
-            return -1001
-        else:
-            platform_col.insert({
-                "_id": str(uuid.uuid1()),
-                "p_name": p_name,
-                "p_logo": p_logo,
-                "p_type": p_type,
-                "create_time": Util.timeFormat(),
-                "deleted": 0
+        try:
+            data = platform_col.find({
+                "p_name": p_name
             })
-            return 1
+            if data.count() != 0:
+                return -1001
+            else:
+                p_id = str(uuid.uuid1())
+                platform_col.insert({
+                    "_id": p_id,
+                    "p_name": p_name,
+                    "p_logo": p_logo,
+                    "p_type": p_type,
+                    "create_time": Util.timeFormat(),
+                    "deleted": 0
+                })
+                log_str = "应用名称：{}；应用ID：{}；应用logo：{}；应用类型：{}".format(p_name, p_id, p_logo, p_type)
+                log_result = LogModel.add_log("添加应用", log_str, user_id, "insert")
+                return 1
+        except Exception as e:
+            print(e)
+            return 0
 
     @classmethod
-    def update_platform(cls, _id, p_name, p_logo, p_type, **kargs):
+    def update_platform(cls, _id, p_name, p_logo, p_type, user_id, **kargs):
         """
         更新应用
         """
@@ -64,6 +73,8 @@ class PlatformModel(object):
                     }
                 })
                 if data["ok"] == 1:
+                    log_str = "应用名称：{}；应用ID：{}；应用logo：{}；应用类型：{}".format(p_name, _id, p_logo, p_type)
+                    log_result = LogModel.add_log("修改应用", log_str, user_id, "update")
                     return 1
                 else:
                     return 0
@@ -93,7 +104,7 @@ class PlatformModel(object):
             return []
 
     @classmethod
-    def delete_platform(cls, p_id):
+    def delete_platform(cls, p_id, user_id):
         """
         软删除应用
         """
@@ -106,6 +117,8 @@ class PlatformModel(object):
                 }
             })
             if data["ok"] == 1:
+                log_str = "应用ID：{}；".format(p_id)
+                log_result = LogModel.add_log("删除应用", log_str, user_id, "delete")
                 return 1
             else:
                 return 0

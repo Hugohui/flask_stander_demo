@@ -34,7 +34,7 @@ class LogModel(object):
             return 0
 
     @classmethod
-    def add_log(cls, title, content, user_id, type):
+    def add_log(cls, title, content, user_id, l_type):
         """添加日志
         :param title: 标题
         :param content: 内容
@@ -48,6 +48,7 @@ class LogModel(object):
                 "l_title": title,
                 "l_content": content,
                 "user_id": user_id,
+                "l_type": l_type,
                 "create_time": Util.timeFormat()
             })
             return 1

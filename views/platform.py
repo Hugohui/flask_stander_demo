@@ -35,12 +35,13 @@ def add_platfrom():
         p_name = Util.form_or_json().get('p_name')
         p_logo = Util.form_or_json().get('p_logo')
         p_type = Util.form_or_json().get('p_type')
+        user_id = Util.form_or_json().get('user_id')
         if not p_name or not p_type or not p_logo:
             return JsonResponse.response(code=0, message="参数错误")
         if _id:
-            result = PlatformModel.update_platform(_id, p_name, p_logo, p_type)
+            result = PlatformModel.update_platform(_id, p_name, p_logo, p_type, user_id)
         else:
-            result = PlatformModel.insert_platform(p_name, p_logo, p_type)
+            result = PlatformModel.insert_platform(p_name, p_logo, p_type, user_id)
         return JsonResponse.response(code=result,data=None)
     except Exception as e:
         print(e)
@@ -53,11 +54,11 @@ def delete_platform():
     """
     try:
         p_id = Util.form_or_json().get("p_id")
-        print(p_id)
+        user_id = Util.form_or_json().get("user_id")
         if not p_id:
             return JsonResponse.response(code=-1000)
         else:
-            result = PlatformModel.delete_platform(p_id)
+            result = PlatformModel.delete_platform(p_id, user_id)
             return JsonResponse.response(code=result)
     except Exception as e:
         print(e)
