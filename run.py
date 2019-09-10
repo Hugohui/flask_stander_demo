@@ -15,6 +15,7 @@ from views.platform import platform_view
 from views.user import user_view
 from views.test import test_view
 from views.stragegy import stragegy_view
+from views.log import log_view
 
 app = Flask(__name__)
 
@@ -23,6 +24,7 @@ app.register_blueprint(platform_view)
 app.register_blueprint(user_view)
 app.register_blueprint(test_view)
 app.register_blueprint(stragegy_view)
+app.register_blueprint(log_view)
 
 
 @app.before_request
