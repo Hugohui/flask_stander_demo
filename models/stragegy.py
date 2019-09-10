@@ -8,6 +8,7 @@
 from models import db
 import uuid
 from utils.util import Util
+from models.log import LogModel
 
 stragegy_col = db["stragegies"]
 bucket_col = db["buckets"]
@@ -87,7 +88,7 @@ class StragegyModel(object):
             return 0
 
     @classmethod
-    def insert_stragegy(cls, t_id, s_name, s_desc, section_min, section_max):
+    def insert_stragegy(cls, t_id, s_name, s_desc, section_min, section_max, user_id):
         """
         新增策略
         """
@@ -139,8 +140,9 @@ class StragegyModel(object):
                     "s_name": s_name,
                     "create_time": Util.timeFormat()
                 })
+            bucket_id = str(uuid.uuid1())
             bucket_col.insert({
-                "_id": str(uuid.uuid1()),
+                "_id": bucket_id,
                 "s_id": s_id,
                 "t_id": t_id,
                 "s_desc": s_desc,
@@ -148,6 +150,8 @@ class StragegyModel(object):
                 "section_max": section_max,
                 "create_time": Util.timeFormat()
             })
+            log_str = "策略名称：{}；策略ID：{}；策略描述：{}；分桶ID：{}；分桶区间：{}".format(s_name, s_id, s_desc, bucket_id, str(section_min) + " ~ " +str(section_max))
+            log_result = LogModel.add_log("创建策略", log_str, user_id, "insert")
             return 1
             
         except Exception as e:
@@ -155,7 +159,7 @@ class StragegyModel(object):
             return 0
 
     @classmethod
-    def update_stragegy(cls, t_id, s_id, b_id, s_name, s_desc, section_min, section_max):
+    def update_stragegy(cls, t_id, s_id, b_id, s_name, s_desc, section_min, section_max, user_id):
         """
         更新策略
         """
@@ -212,13 +216,18 @@ class StragegyModel(object):
                     "update_time": Util.timeFormat()
                 }
             })
-            return 1 if data.get("ok") == 1 else 0                
+            if data.get("ok") == 1:
+                log_str = "策略ID：{}；策略描述：{}；分桶ID：{}；分桶区间：{}".format(s_id, s_desc, b_id, str(section_min) + " ~ " +str(section_max))
+                log_result = LogModel.add_log("修改策略", log_str, user_id, "update")
+                return 1
+            else:
+                return 0              
         except Exception as e:
             print(e)
             return 0
 
     @classmethod
-    def delete(cls, s_id, b_id):
+    def delete(cls, s_id, b_id, user_id):
         """
         删除分桶
         """
@@ -226,6 +235,8 @@ class StragegyModel(object):
             bucket_col.remove({
                 "_id": b_id
             })
+            log_str = "策略ID：{}；分桶ID：{}".format(s_id, b_id)
+            log_result = LogModel.add_log("删除分桶", log_str, user_id, "remove")
             if bucket_col.find({"s_id": s_id}).count() == 0:
                 stragegy_col.remove({
                     "s_id": s_id

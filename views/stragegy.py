@@ -62,16 +62,17 @@ def update_stragegy():
         s_desc = Util.form_or_json().get("s_desc")
         section_min = Util.form_or_json().get("section_min")
         section_max = Util.form_or_json().get("section_max")
+        user_id = Util.form_or_json().get("user_id")
 
         if not t_id or not s_name or not s_desc or section_min == None or section_max == None or int(section_min) > int(section_max):
             return JsonResponse.response(code=-1000)
         if s_id and b_id:
             # 修改
-            result = StragegyModel.update_stragegy(t_id, s_id, b_id, s_name, s_desc, section_min, section_max)
+            result = StragegyModel.update_stragegy(t_id, s_id, b_id, s_name, s_desc, section_min, section_max, user_id)
             return JsonResponse.response(code=result)
         else:
             # 新增
-            result = StragegyModel.insert_stragegy(t_id, s_name, s_desc, section_min, section_max)
+            result = StragegyModel.insert_stragegy(t_id, s_name, s_desc, section_min, section_max, user_id)
             return JsonResponse.response(code=result)
     except Exception as e:
         print(e)
@@ -85,9 +86,10 @@ def delete():
     try:
         b_id = Util.form_or_json().get("b_id")
         s_id = Util.form_or_json().get("s_id")
+        user_id = Util.form_or_json().get("user_id")
         if not b_id or not s_id:
             return JsonResponse.response(code=-1000)
-        result = StragegyModel.delete(s_id, b_id)
+        result = StragegyModel.delete(s_id, b_id, user_id)
         return JsonResponse.response(code=result)
     except Exception as e:
         print(e)
