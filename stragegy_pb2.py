@@ -20,22 +20,29 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0estragegy.proto\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t23\n\x07Greeter\x12(\n\x08SayHello\x12\r.HelloRequest\x1a\x0b.HelloReply\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0estragegy.proto\"-\n\nGetRequest\x12\x0e\n\x06md5_id\x18\x01 \x01(\t\x12\x0f\n\x07test_id\x18\x02 \x01(\t\"\x1f\n\x08GetReply\x12\x13\n\x0bstragegy_id\x18\x01 \x01(\t23\n\x08Stragegy\x12\'\n\x0bGetStragegy\x12\x0b.GetRequest\x1a\t.GetReply\"\x00\x62\x06proto3')
 )
 
 
 
 
-_HELLOREQUEST = _descriptor.Descriptor(
-  name='HelloRequest',
-  full_name='HelloRequest',
+_GETREQUEST = _descriptor.Descriptor(
+  name='GetRequest',
+  full_name='GetRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='HelloRequest.name', index=0,
+      name='md5_id', full_name='GetRequest.md5_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='test_id', full_name='GetRequest.test_id', index=1,
+      number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -53,19 +60,19 @@ _HELLOREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=18,
-  serialized_end=46,
+  serialized_end=63,
 )
 
 
-_HELLOREPLY = _descriptor.Descriptor(
-  name='HelloReply',
-  full_name='HelloReply',
+_GETREPLY = _descriptor.Descriptor(
+  name='GetReply',
+  full_name='GetReply',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='message', full_name='HelloReply.message', index=0,
+      name='stragegy_id', full_name='GetReply.stragegy_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -83,51 +90,51 @@ _HELLOREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=48,
-  serialized_end=77,
+  serialized_start=65,
+  serialized_end=96,
 )
 
-DESCRIPTOR.message_types_by_name['HelloRequest'] = _HELLOREQUEST
-DESCRIPTOR.message_types_by_name['HelloReply'] = _HELLOREPLY
+DESCRIPTOR.message_types_by_name['GetRequest'] = _GETREQUEST
+DESCRIPTOR.message_types_by_name['GetReply'] = _GETREPLY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-HelloRequest = _reflection.GeneratedProtocolMessageType('HelloRequest', (_message.Message,), {
-  'DESCRIPTOR' : _HELLOREQUEST,
+GetRequest = _reflection.GeneratedProtocolMessageType('GetRequest', (_message.Message,), {
+  'DESCRIPTOR' : _GETREQUEST,
   '__module__' : 'stragegy_pb2'
-  # @@protoc_insertion_point(class_scope:HelloRequest)
+  # @@protoc_insertion_point(class_scope:GetRequest)
   })
-_sym_db.RegisterMessage(HelloRequest)
+_sym_db.RegisterMessage(GetRequest)
 
-HelloReply = _reflection.GeneratedProtocolMessageType('HelloReply', (_message.Message,), {
-  'DESCRIPTOR' : _HELLOREPLY,
+GetReply = _reflection.GeneratedProtocolMessageType('GetReply', (_message.Message,), {
+  'DESCRIPTOR' : _GETREPLY,
   '__module__' : 'stragegy_pb2'
-  # @@protoc_insertion_point(class_scope:HelloReply)
+  # @@protoc_insertion_point(class_scope:GetReply)
   })
-_sym_db.RegisterMessage(HelloReply)
+_sym_db.RegisterMessage(GetReply)
 
 
 
-_GREETER = _descriptor.ServiceDescriptor(
-  name='Greeter',
-  full_name='Greeter',
+_STRAGEGY = _descriptor.ServiceDescriptor(
+  name='Stragegy',
+  full_name='Stragegy',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=79,
-  serialized_end=130,
+  serialized_start=98,
+  serialized_end=149,
   methods=[
   _descriptor.MethodDescriptor(
-    name='SayHello',
-    full_name='Greeter.SayHello',
+    name='GetStragegy',
+    full_name='Stragegy.GetStragegy',
     index=0,
     containing_service=None,
-    input_type=_HELLOREQUEST,
-    output_type=_HELLOREPLY,
+    input_type=_GETREQUEST,
+    output_type=_GETREPLY,
     serialized_options=None,
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_GREETER)
+_sym_db.RegisterServiceDescriptor(_STRAGEGY)
 
-DESCRIPTOR.services_by_name['Greeter'] = _GREETER
+DESCRIPTOR.services_by_name['Stragegy'] = _STRAGEGY
 
 # @@protoc_insertion_point(module_scope)

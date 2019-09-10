@@ -4,7 +4,7 @@ import grpc
 import stragegy_pb2 as stragegy__pb2
 
 
-class GreeterStub(object):
+class StragegyStub(object):
   """The greeting service definition.
   """
 
@@ -14,18 +14,18 @@ class GreeterStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.SayHello = channel.unary_unary(
-        '/Greeter/SayHello',
-        request_serializer=stragegy__pb2.HelloRequest.SerializeToString,
-        response_deserializer=stragegy__pb2.HelloReply.FromString,
+    self.GetStragegy = channel.unary_unary(
+        '/Stragegy/GetStragegy',
+        request_serializer=stragegy__pb2.GetRequest.SerializeToString,
+        response_deserializer=stragegy__pb2.GetReply.FromString,
         )
 
 
-class GreeterServicer(object):
+class StragegyServicer(object):
   """The greeting service definition.
   """
 
-  def SayHello(self, request, context):
+  def GetStragegy(self, request, context):
     """Sends a greeting
     """
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -33,14 +33,14 @@ class GreeterServicer(object):
     raise NotImplementedError('Method not implemented!')
 
 
-def add_GreeterServicer_to_server(servicer, server):
+def add_StragegyServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'SayHello': grpc.unary_unary_rpc_method_handler(
-          servicer.SayHello,
-          request_deserializer=stragegy__pb2.HelloRequest.FromString,
-          response_serializer=stragegy__pb2.HelloReply.SerializeToString,
+      'GetStragegy': grpc.unary_unary_rpc_method_handler(
+          servicer.GetStragegy,
+          request_deserializer=stragegy__pb2.GetRequest.FromString,
+          response_serializer=stragegy__pb2.GetReply.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'Greeter', rpc_method_handlers)
+      'Stragegy', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

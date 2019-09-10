@@ -1,17 +1,18 @@
 syntax = "proto3";  // 声明使用 proto3 语法
 
 // The greeting service definition.
-service Greeter {
+service Stragegy {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc GetStragegy (GetRequest) returns (GetReply) {}
 }
 
 // The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message GetRequest {
+  string md5_id = 1; // device_id or user_id
+  string test_id = 2; // 实验id
 }
 
 // The response message containing the greetings
-message HelloReply {
-  string message = 1;
+message GetReply {
+  string stragegy_id = 1;
 }
