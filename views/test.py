@@ -37,12 +37,13 @@ def add_test():
         t_name = Util.form_or_json().get("t_name")
         t_str = Util.form_or_json().get("t_str")
         t_desc = Util.form_or_json().get("t_desc")
+        user_id = Util.form_or_json().get("user_id")
         if not p_id or not t_name:
             return JsonResponse.response(code=-1000)
         if t_id:
-            result = TestsModel.update_test_info(p_id, t_id, t_name, t_str, t_desc)
+            result = TestsModel.update_test_info(p_id, t_id, t_name, t_str, t_desc, user_id)
         else:
-            result = TestsModel.add_test(p_id, t_name, t_str, t_desc)
+            result = TestsModel.add_test(p_id, t_name, t_str, t_desc, user_id)
         return JsonResponse.response(code=result)
     except Exception as e:
         print(e)
@@ -56,7 +57,8 @@ def toggle_status():
     try:
         t_id = Util.form_or_json().get("t_id")
         t_status = Util.form_or_json().get("t_status")
-        result = TestsModel.toggle_status(t_id, t_status)
+        user_id = Util.form_or_json().get("user_id")
+        result = TestsModel.toggle_status(t_id, t_status, user_id)
         return JsonResponse.response(code=result)
     except Exception as e:
         print(e)

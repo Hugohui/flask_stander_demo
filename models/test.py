@@ -8,6 +8,7 @@
 from models import db
 import uuid
 from utils.util import Util
+from models.log import LogModel
 
 test_col = db["tests"]
 bucket_col = db["buckets"]
@@ -43,7 +44,7 @@ class TestsModel(object):
 
 
     @classmethod
-    def add_test(cls, p_id, t_name, t_str, t_desc):
+    def add_test(cls, p_id, t_name, t_str, t_desc, user_id):
         """
         创建实验
         """
@@ -56,8 +57,9 @@ class TestsModel(object):
             if data_len != 0:
                 return -2001
             else:
+                t_id = str(uuid.uuid1())
                 test_col.insert({
-                    "_id": str(uuid.uuid1()),
+                    "_id": t_id,
                     "p_id": p_id,
                     "t_name": t_name,
                     "t_str": t_str,
@@ -65,13 +67,15 @@ class TestsModel(object):
                     "t_status": 1,
                     "create_time": Util.timeFormat()
                 })
+                log_str = "实验名称：{}；实验ID：{}；实验描述：{}；加盐字符：{}".format(t_name, t_id, t_desc, t_str)
+                log_result = LogModel.add_log("创建实验", log_str, user_id, "insert")
                 return 1
         except Exception as e:
             print(e)
             return 0
 
     @classmethod
-    def update_test_info(cls, p_id, t_id, t_name, t_str, t_desc):
+    def update_test_info(cls, p_id, t_id, t_name, t_str, t_desc, user_id):
         """
         修改实验信息
         """
@@ -96,13 +100,15 @@ class TestsModel(object):
                         "update_time": Util.timeFormat()
                     }
                 })
+            log_str = "实验名称：{}；实验ID：{}；实验描述：{}；加盐字符：{}".format(t_name, t_id, t_desc, t_str)
+            log_result = LogModel.add_log("修改实验", log_str, user_id, "update")
             return 1
         except Exception as e:
             print(e)
             return 0
 
     @classmethod
-    def toggle_status(cls, t_id, status):
+    def toggle_status(cls, t_id, status, user_id):
         """
         改变实验状态
         """
@@ -118,6 +124,8 @@ class TestsModel(object):
                     }
             })
             if data["ok"] == 1:
+                log_str = "实验ID：{}；状态：{}".format(t_id, int(status))
+                log_result = LogModel.add_log("启用/停用实验", log_str, user_id, "update")
                 return 1
             else:
                 return 0
