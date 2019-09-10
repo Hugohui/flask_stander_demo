@@ -9,6 +9,7 @@
 from models import db
 from utils.util import Util
 import uuid
+from models.user import UserModel
 
 log_col = db["logs"]
 
@@ -23,7 +24,6 @@ class LogModel(object):
         :param user_id: user_id
         """
         try:
-            print(user_id)
             data = log_col.find({
                 "user_id": user_id
             })
@@ -33,7 +33,7 @@ class LogModel(object):
                     "create_time": item.get("create_time"),
                     "title": item.get("l_title"),
                     "content": item.get("l_content"),
-                    "user_id": item.get("user_id")
+                    "user_name": UserModel.get_userinfo_by_id(item.get("user_id")).get("nickname")
                 })
             return result
         except Exception as e:
