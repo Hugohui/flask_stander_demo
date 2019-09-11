@@ -66,7 +66,8 @@ class TestsModel(object):
                     "t_str": t_str,
                     "t_desc": t_desc,
                     "t_status": 1,
-                    "create_time": Util.timeFormat()
+                    "create_time": Util.timeFormat(),
+                    "creator_id": user_id
                 })
                 log_str = "实验名称：{}；实验ID：{}；实验描述：{}；加盐字符：{}".format(t_name, t_id, t_desc, t_str)
                 log_result = LogModel.add_log("创建实验", log_str, user_id, "insert")

@@ -36,7 +36,8 @@ class PlatformModel(object):
                     "p_logo": p_logo,
                     "p_type": p_type,
                     "create_time": Util.timeFormat(),
-                    "deleted": 0
+                    "deleted": 0,
+                    "creator_id": user_id
                 })
                 log_str = "应用名称：{}；应用ID：{}；应用logo：{}；应用类型：{}".format(p_name, p_id, p_logo, p_type)
                 log_result = LogModel.add_log("添加应用", log_str, user_id, "insert")

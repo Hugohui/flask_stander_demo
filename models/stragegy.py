@@ -148,7 +148,8 @@ class StragegyModel(object):
                 "s_desc": s_desc,
                 "section_min": section_min,
                 "section_max": section_max,
-                "create_time": Util.timeFormat()
+                "create_time": Util.timeFormat(),
+                "creator_id": user_id
             })
             log_str = "策略名称：{}；策略ID：{}；策略描述：{}；分桶ID：{}；分桶区间：{}".format(s_name, s_id, s_desc, bucket_id, str(section_min) + " ~ " +str(section_max))
             log_result = LogModel.add_log("创建策略", log_str, user_id, "insert")
