@@ -9,6 +9,9 @@
 IS_DEBUG = True
 PORT = 5203
 
+# 是否开启扫码登陆
+FORCE_LOGIN = True
+
 # MongoDB
 MONGO_HOST = "127.0.0.1" if IS_DEBUG else ""
 

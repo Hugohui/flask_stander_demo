@@ -32,21 +32,13 @@ def before_request():
     referrer = request.referrer
     
     # 环境判断（测试/正式），测试环境不做扫码验证
-    if  not settings.IS_DEBUG:
+    if  settings.FORCE_LOGIN:
         cookies_tmp_code = request.cookies.get('tmp_code')
         cookies_website_id = request.cookies.get('website_id')
 
         request_tmp_code = request.args.get("tmp_code", '')
         request_sign = request.args.get("sign", '')
         request_website_id = request.args.get("website_id", '')
-
-        print("cookies_tmp_code===",cookies_tmp_code)
-        print("cookies_website_id===",cookies_website_id)
-
-        print("request_tmp_code===",request_tmp_code)
-        print("request_sign===",request_sign)
-        print("request_website_id===",request_website_id)
-
 
         # 优先判断request_code、cookies_code
         if request_tmp_code:
