@@ -18,9 +18,10 @@ def get_record():
     """
     try:
         user_id = request.args.get("user_id")
+        page = request.args.get("page", '1')
         if not user_id:
             return JsonResponse.response(code=-1000)
-        result = LogModel.get_list(user_id)
+        result = LogModel.get_list(user_id, int(page))
         return JsonResponse.response(data=result)
     except Exception as e:
         print(e)

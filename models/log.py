@@ -19,15 +19,21 @@ class LogModel(object):
         pass
     
     @classmethod
-    def get_list(cls, user_id):
+    def get_list(cls, user_id, page=1, page_limit=40):
         """获取日志列表
         :param user_id: user_id
         """
         try:
-            data = log_col.find()
-            result = []
+            skip = page_limit * (page -1)
+            data = log_col.find().limit(page_limit).skip(skip).sort([("create_time",-1)])
+            total = log_col.find().count()
+            result = {
+                "total": total,
+                "limit": page_limit,
+                "list": []
+            }
             for item in data:
-                result.append({
+                result["list"].append({
                     "create_time": item.get("create_time"),
                     "title": item.get("l_title"),
                     "content": item.get("l_content"),
