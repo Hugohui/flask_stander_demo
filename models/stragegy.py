@@ -12,6 +12,7 @@ from models.log import LogModel
 
 stragegy_col = db["stragegies"]
 bucket_col = db["buckets"]
+test_col = db["tests"]
 
 class StragegyModel(object):
     '策略Model类'
@@ -254,8 +255,12 @@ class StragegyModel(object):
         :param md5_value: md5值
         """
         try:
-            print(test_id)
-            print(md5_value)
+            t_status = test_col.find_one({
+                "_id": test_id
+            }).get("t_status")
+            if t_status == 0:
+                return "fail"
+
             data = bucket_col.find_one({
                 "t_id": test_id,
                 "section_min": {
@@ -268,7 +273,7 @@ class StragegyModel(object):
             if data:
                 return data.get("s_id")
             else:
-                return 0
+                return "fail"
         except Exception as e:
             print(e)
             return 0            
