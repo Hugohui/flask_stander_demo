@@ -43,7 +43,7 @@ def before_request():
         # 优先判断request_code、cookies_code
         if request_tmp_code:
             if request_sign == sign_md5(code=request_tmp_code):
-                print 'auth success!'
+                print('auth success!')
             else:
                 resData = {
                     "code": 401,
@@ -55,7 +55,7 @@ def before_request():
             res_dict = code_permission(
                 tmp_auth_code=cookies_tmp_code, website_id=cookies_website_id)
             if res_dict.get('code') == 0:
-                print 'auth success!'
+                print('auth success!')
             else:
                 res = redirect(referrer)
                 return res

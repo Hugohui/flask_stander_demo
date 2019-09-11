@@ -1,4 +1,5 @@
 .vscode
 *.pyc
 venv
+venv3
 node_modules

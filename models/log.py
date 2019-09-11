@@ -24,9 +24,7 @@ class LogModel(object):
         :param user_id: user_id
         """
         try:
-            data = log_col.find({
-                "user_id": user_id
-            })
+            data = log_col.find()
             result = []
             for item in data:
                 result.append({

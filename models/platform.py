@@ -109,12 +109,8 @@ class PlatformModel(object):
         软删除应用
         """
         try:
-            data = platform_col.update({
+            data = platform_col.remove({
                 "_id": p_id
-            },{
-                "$set": {
-                    "deleted": 1
-                }
             })
             if data["ok"] == 1:
                 log_str = "应用ID：{}；".format(p_id)
