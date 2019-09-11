@@ -91,7 +91,6 @@ class PlatformModel(object):
             })
             results = []
             for item in data:
-                print(item["_id"])
                 results.append({
                     "p_id": item["_id"],
                     "p_name": item["p_name"],
