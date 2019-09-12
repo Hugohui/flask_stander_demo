@@ -6,10 +6,7 @@
 """
 
 from concurrent import futures
-import time
-import grpc
-import stragegy_pb2
-import stragegy_pb2_grpc
+import time, json, grpc, stragegy_pb2, stragegy_pb2_grpc
 from utils.util import Util
 from models.test import TestsModel
 from models.stragegy import StragegyModel
@@ -27,6 +24,17 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
 
         # 获取策略ID
         s_id = StragegyModel.get_stragegy_id(test_id, md5_value)
+
+        # 日志
+        logger_data = {
+            "method": "GetStragegy",
+            "test_id": test_id,
+            "md5_id": md5_id,
+            "md5_str": md5_str,
+            "md5_value": md5_value,
+            "s_id": s_id
+        }
+        print(json.dumps(logger_data))
 
         return stragegy_pb2.GetReply(stragegy_id = s_id)
 
