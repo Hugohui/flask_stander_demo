@@ -10,6 +10,15 @@ import time, json, grpc, stragegy_pb2, stragegy_pb2_grpc
 from utils.util import Util
 from models.test import TestsModel
 from models.stragegy import StragegyModel
+import logging
+from logging.handlers import RotatingFileHandler
+
+
+# 日志服务
+logging.basicConfig(level=logging.INFO, format="%(message)s")
+log_handler = RotatingFileHandler("logs/ab_test.log", maxBytes=1024*1024*10, backupCount=10)
+logger = logging.getLogger()
+logger.addHandler(log_handler)
 
 # 实现 proto 文件中定义的 StragegyServicer
 class Stragegy(stragegy_pb2_grpc.StragegyServicer):
@@ -34,7 +43,7 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
             "md5_value": md5_value,
             "s_id": s_id
         }
-        print(json.dumps(logger_data))
+        logger.info(json.dumps(logger_data))
 
         return stragegy_pb2.GetReply(stragegy_id = s_id)
 
