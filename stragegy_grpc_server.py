@@ -10,7 +10,7 @@ import time, json, grpc, stragegy_pb2, stragegy_pb2_grpc
 from utils.util import Util
 from models.test import TestsModel
 from models.stragegy import StragegyModel
-import logging
+import logging, redis, settings
 from logging.handlers import RotatingFileHandler
 
 
@@ -20,12 +20,20 @@ log_handler = RotatingFileHandler("logs/rpc.log", maxBytes=1024*1024*10, backupC
 logger = logging.getLogger()
 logger.addHandler(log_handler)
 
+rds = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB, password=settings.REDIS_PASSWORD)
+
 # 实现 proto 文件中定义的 StragegyServicer
 class Stragegy(stragegy_pb2_grpc.StragegyServicer):
     # 实现 proto 文件中定义的 rpc 调用
     def GetStragegy(self, request, context):
         test_id = request.test_id
         md5_id = request.md5_id
+
+        # redis
+        redis_key = str(md5_id) + "&" + str(test_id)
+        redis_value = rds.get(redis_key)
+        if redis_value:
+            return stragegy_pb2.GetReply(stragegy_id = redis_value)
 
         # 获取加盐字符取模
         md5_str = TestsModel.get_str_by_id(test_id)
@@ -44,6 +52,9 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
             "s_id": s_id
         }
         logger.info(json.dumps(logger_data))
+
+        # redis缓存
+        rds.set(redis_key,s_id)
 
         return stragegy_pb2.GetReply(stragegy_id = s_id)
 
