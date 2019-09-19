@@ -67,7 +67,7 @@ server {
 }
 
 ```
-##### 平台入口
+##### 平台入口（部署到不同服务器需要修改接口访问IP）
 ```javascript
 http://liquid-h5.oss-cn-beijing.aliyuncs.com/ab_test/index.html
 ```
