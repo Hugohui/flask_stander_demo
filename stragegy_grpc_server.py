@@ -16,7 +16,7 @@ from logging.handlers import RotatingFileHandler
 
 # 日志服务
 logging.basicConfig(level=logging.INFO, format="%(message)s")
-log_handler = RotatingFileHandler("logs/ab_test.log", maxBytes=1024*1024*10, backupCount=10)
+log_handler = RotatingFileHandler("logs/rpc.log", maxBytes=1024*1024*10, backupCount=10)
 logger = logging.getLogger()
 logger.addHandler(log_handler)
 
