@@ -19,6 +19,7 @@ def get_record():
     try:
         user_id = request.args.get("user_id")
         page = request.args.get("page", '1')
+        current_app.logger.info("router:{},params:{}".format(request.path, request.args))
         if not user_id:
             return JsonResponse.response(code=-1000)
         result = LogModel.get_list(user_id, int(page))

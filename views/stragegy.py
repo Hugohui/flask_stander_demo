@@ -20,6 +20,7 @@ def get_stragegy():
     """
     try:
         t_id = request.args.get("t_id")
+        current_app.logger.info("router:{},params:{}".format(request.path, request.args))
         if not t_id:
             return JsonResponse.response(code=-1000)
         result = StragegyModel.get_stragegy(t_id)
@@ -37,6 +38,9 @@ def pre_check():
     try:
         t_id = Util.form_or_json().get("t_id")
         s_name = Util.form_or_json().get("s_name")
+
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         if not t_id or not s_name:
             return JsonResponse.response(-1000)
         result = StragegyModel.pre_check(t_id, s_name)
@@ -64,6 +68,8 @@ def update_stragegy():
         section_max = Util.form_or_json().get("section_max")
         user_id = Util.form_or_json().get("user_id")
 
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         if not t_id or not s_name or not s_desc or section_min == None or section_max == None or int(section_min) > int(section_max):
             return JsonResponse.response(code=-1000)
         if s_id and b_id:
@@ -87,6 +93,9 @@ def delete():
         b_id = Util.form_or_json().get("b_id")
         s_id = Util.form_or_json().get("s_id")
         user_id = Util.form_or_json().get("user_id")
+
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         if not b_id or not s_id:
             return JsonResponse.response(code=-1000)
         result = StragegyModel.delete(s_id, b_id, user_id)

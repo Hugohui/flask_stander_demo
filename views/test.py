@@ -20,6 +20,9 @@ def get_tests():
     """
     try:
         p_id = request.args.get("p_id")
+
+        current_app.logger.info("router:{},params:{}".format(request.path, request.args))
+
         results = TestsModel.get_tests(p_id)
         return JsonResponse.response(data=results)
     except Exception as e:
@@ -39,6 +42,9 @@ def add_test():
         t_str = Util.form_or_json().get("t_str")
         t_desc = Util.form_or_json().get("t_desc")
         user_id = Util.form_or_json().get("user_id")
+
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         if not p_id or not t_name:
             return JsonResponse.response(code=-1000)
         if t_id:
@@ -59,6 +65,9 @@ def toggle_status():
         t_id = Util.form_or_json().get("t_id")
         t_status = Util.form_or_json().get("t_status")
         user_id = Util.form_or_json().get("user_id")
+
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         result = TestsModel.toggle_status(t_id, t_status, user_id)
         return JsonResponse.response(code=result)
     except Exception as e:
@@ -73,6 +82,9 @@ def search():
     try:
         p_id = Util.form_or_json().get("p_id")
         search = Util.form_or_json().get("search")
+
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         result = TestsModel.search(p_id, search)
         return JsonResponse.response(data=result)
     except Exception as e:

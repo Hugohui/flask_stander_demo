@@ -21,6 +21,7 @@ def get_platforms():
     """
     try:
         result = PlatformModel.get_list()
+        current_app.logger.info("router:{}".format(request.path))
         return JsonResponse.response(data=result)
     except Exception as e:
         current_app.logger.error(e)
@@ -37,6 +38,9 @@ def add_platfrom():
         p_logo = Util.form_or_json().get('p_logo')
         p_type = Util.form_or_json().get('p_type')
         user_id = Util.form_or_json().get('user_id')
+
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         if not p_name or not p_type or not p_logo:
             return JsonResponse.response(code=0, message="参数错误")
         if _id:
@@ -56,6 +60,9 @@ def delete_platform():
     try:
         p_id = Util.form_or_json().get("p_id")
         user_id = Util.form_or_json().get("user_id")
+
+        current_app.logger.info("router:{},params:{}".format(request.path, Util.form_or_json()))
+
         if not p_id:
             return JsonResponse.response(code=-1000)
         else:

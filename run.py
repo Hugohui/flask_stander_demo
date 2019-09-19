@@ -13,7 +13,6 @@ from utils.sign_md5 import sign_md5
 
 # 导入视图
 from views.platform import platform_view
-from views.user import user_view
 from views.test import test_view
 from views.stragegy import stragegy_view
 from views.log import log_view
@@ -30,7 +29,6 @@ app.logger.addHandler(log_handler)
 
 # 注册蓝图
 app.register_blueprint(platform_view)
-app.register_blueprint(user_view)
 app.register_blueprint(test_view)
 app.register_blueprint(stragegy_view)
 app.register_blueprint(log_view)
