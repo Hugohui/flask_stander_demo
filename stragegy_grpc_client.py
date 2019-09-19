@@ -15,7 +15,7 @@ def run():
     # channel = grpc.insecure_channel('47.93.218.129:50051')
     # 调用 rpc 服务
     stub = stragegy_pb2_grpc.StragegyStub(channel)
-    response = stub.GetStragegy(stragegy_pb2.GetRequest(md5_id='rC8epZTEcw7cSykzvqftiSQiEiE', test_id="e293f5ae-cef8-11e9-a429-c06e964480ff"))
+    response = stub.GetStragegy(stragegy_pb2.GetRequest(md5_id='rC8epZTEcw7cSykzvqftiS5iEiE', test_id="e293f5ae-cef8-11e9-a429-c06e964480ff"))
     print("Greeter client received: " + response.stragegy_id)
 
 if __name__ == '__main__':

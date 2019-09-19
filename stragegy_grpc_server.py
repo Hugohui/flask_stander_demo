@@ -54,7 +54,8 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
         logger.info(json.dumps(logger_data))
 
         # redis缓存
-        rds.set(redis_key,s_id)
+        if s_id != "fail":
+            rds.set(redis_key,s_id, ex=60 * 3)
 
         return stragegy_pb2.GetReply(stragegy_id = s_id)
 
