@@ -10,6 +10,7 @@ from logging.handlers import RotatingFileHandler
 from flask import Flask, request, make_response, jsonify, redirect
 from utils.permission import code_permission
 from utils.sign_md5 import sign_md5
+from flask_cors import CORS
 
 # 导入视图
 from views.platform import platform_view
@@ -23,6 +24,7 @@ log_handler = RotatingFileHandler("logs/ab-test.log", maxBytes=1024*1024*10, bac
 log_handler.setFormatter(log_formatter)
 
 app = Flask(__name__)
+CORS(app,supports_credentials=True)
 
 # 日志
 app.logger.addHandler(log_handler)
@@ -74,6 +76,18 @@ def before_request():
             res = make_response(jsonify(resData))
             return res
 
+@app.after_request
+def af_request(resp):     
+    """
+    #请求钩子，在所有的请求发生后执行，加入headers。
+    :param resp:
+    :return:
+    """
+    resp = make_response(resp)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Access-Control-Allow-Methods'] = 'GET,POST'
+    resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    return resp
 
 @app.route('/')
 def hello_world():
