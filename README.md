@@ -50,23 +50,7 @@ venv/bin/pip install -r requirements.txt
 ```python
 venv/bin/python run.py
 ```
-##### nginx配置跨域
-```python
-# 监听nginx 5200端口，代理到本项目5203
 
-server {
-        listen      5200;
-        server_name localhost;
-
-        location / {
-                add_header Access-Control-Allow-Origin *;
-                add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
-                add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
-                proxy_pass http://127.0.0.1:5203;
-        }
-}
-
-```
 ##### 平台入口（部署到不同服务器需要修改接口访问IP）
 ```javascript
 http://liquid-h5.oss-cn-beijing.aliyuncs.com/ab_test/index.html
