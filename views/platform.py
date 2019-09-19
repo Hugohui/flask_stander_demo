@@ -6,7 +6,7 @@
 :date: 2019-09-02
 """
 
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from utils.json_response import JsonResponse
 from models.platform import PlatformModel
 import json
@@ -23,6 +23,7 @@ def get_platforms():
         result = PlatformModel.get_list()
         return JsonResponse.response(data=result)
     except Exception as e:
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 @platform_view.route("/update", methods=["POST"])
@@ -44,7 +45,7 @@ def add_platfrom():
             result = PlatformModel.insert_platform(p_name, p_logo, p_type, user_id)
         return JsonResponse.response(code=result,data=None)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 @platform_view.route("/delete", methods=["POST"])
@@ -61,5 +62,5 @@ def delete_platform():
             result = PlatformModel.delete_platform(p_id, user_id)
             return JsonResponse.response(code=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)

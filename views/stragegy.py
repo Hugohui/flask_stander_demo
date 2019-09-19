@@ -5,7 +5,7 @@
 :date: 2019-09-05
 """
 
-from flask import Blueprint,request
+from flask import Blueprint,request, current_app
 from utils.util import Util
 from utils.json_response import JsonResponse
 from models.stragegy import StragegyModel
@@ -25,7 +25,7 @@ def get_stragegy():
         result = StragegyModel.get_stragegy(t_id)
         return JsonResponse.response(data=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 
@@ -45,7 +45,7 @@ def pre_check():
         else: 
             return JsonResponse.response(code=-3001,data=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 
@@ -75,7 +75,7 @@ def update_stragegy():
             result = StragegyModel.insert_stragegy(t_id, s_name, s_desc, section_min, section_max, user_id)
             return JsonResponse.response(code=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 @stragegy_view.route("/delete", methods=["POST"])
@@ -92,5 +92,5 @@ def delete():
         result = StragegyModel.delete(s_id, b_id, user_id)
         return JsonResponse.response(code=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)

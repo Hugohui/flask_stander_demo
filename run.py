@@ -5,7 +5,8 @@
 :author: huiwenhua
 :date: 2019-08-27
 """
-import settings
+import settings, logging
+from logging.handlers import RotatingFileHandler
 from flask import Flask, request, make_response, jsonify, redirect
 from utils.permission import code_permission
 from utils.sign_md5 import sign_md5
@@ -17,7 +18,15 @@ from views.test import test_view
 from views.stragegy import stragegy_view
 from views.log import log_view
 
+logging.basicConfig(level=logging.DEBUG)
+log_formatter = logging.Formatter("[%(asctime)s][%(filename)s:%(lineno)d][%(levelname)s][%(thread)d] - %(message)s")
+log_handler = RotatingFileHandler("logs/ab-test.log", maxBytes=1024*1024*10, backupCount=10)
+log_handler.setFormatter(log_formatter)
+
 app = Flask(__name__)
+
+# 日志
+app.logger.addHandler(log_handler)
 
 # 注册蓝图
 app.register_blueprint(platform_view)
@@ -70,6 +79,7 @@ def before_request():
 
 @app.route('/')
 def hello_world():
+    app.logger.info('Hello World!')
     return 'Hello World!'
 
 if __name__ == '__main__':

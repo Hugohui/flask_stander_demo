@@ -6,6 +6,7 @@
 :desc: Happy teacher's day！
 """
 
+from flask import Flask, current_app
 from models import db
 from utils.util import Util
 import uuid
@@ -41,7 +42,7 @@ class LogModel(object):
                 })
             return result
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -64,5 +65,5 @@ class LogModel(object):
             })
             return 1
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0

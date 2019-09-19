@@ -6,11 +6,11 @@
 :date: 2019-08-27
 """
 
-IS_DEBUG = False
+IS_DEBUG = True
 PORT = 5203
 
 # 是否开启扫码登陆
-FORCE_LOGIN = True
+FORCE_LOGIN = False
 
 # MongoDB
 # 外网 "mongodb://admin:n3tw0rk@dds-2ze4b601d1f5a9141374-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze4b601d1f5a9142107-pub.mongodb.rds.aliyuncs.com:3717/ab_test?replicaSet=mgset-16573833"

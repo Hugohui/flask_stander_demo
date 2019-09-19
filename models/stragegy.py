@@ -5,6 +5,7 @@
 :date: 2019-09-05
 """
 
+from flask import current_app
 from models import db
 import uuid
 from utils.util import Util
@@ -60,7 +61,7 @@ class StragegyModel(object):
                 })
             return result
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -85,7 +86,7 @@ class StragegyModel(object):
             else:
                 return 1
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -157,7 +158,7 @@ class StragegyModel(object):
             return 1
             
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -225,7 +226,7 @@ class StragegyModel(object):
             else:
                 return 0              
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -245,7 +246,7 @@ class StragegyModel(object):
                 })
             return 1
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -275,5 +276,5 @@ class StragegyModel(object):
             else:
                 return "fail"
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0            

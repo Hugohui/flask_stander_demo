@@ -6,7 +6,7 @@
 :date: 2019-09-04
 """
 
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from utils.json_response import JsonResponse
 from models.test import TestsModel
 from utils.util import Util
@@ -23,7 +23,7 @@ def get_tests():
         results = TestsModel.get_tests(p_id)
         return JsonResponse.response(data=results)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 
@@ -47,7 +47,7 @@ def add_test():
             result = TestsModel.add_test(p_id, t_name, t_str, t_desc, user_id)
         return JsonResponse.response(code=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 @test_view.route("/toggle_status", methods=["POST"])
@@ -62,7 +62,7 @@ def toggle_status():
         result = TestsModel.toggle_status(t_id, t_status, user_id)
         return JsonResponse.response(code=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
 
 @test_view.route("/search", methods=["POST"])
@@ -76,5 +76,5 @@ def search():
         result = TestsModel.search(p_id, search)
         return JsonResponse.response(data=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)

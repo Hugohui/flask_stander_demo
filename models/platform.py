@@ -3,6 +3,7 @@
 平台相关Model
 """
 
+from flask import current_app
 from models import db
 from models.log import LogModel
 from utils.util import Util
@@ -43,7 +44,7 @@ class PlatformModel(object):
                 log_result = LogModel.add_log("添加应用", log_str, user_id, "insert")
                 return 1
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -80,7 +81,7 @@ class PlatformModel(object):
                 else:
                     return 0
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return 0
 
     @classmethod
@@ -100,7 +101,7 @@ class PlatformModel(object):
                 })
             return results
         except Exception as e:
-            print(e)
+            current_app.logger.error(e)
             return []
 
     @classmethod
@@ -119,5 +120,5 @@ class PlatformModel(object):
             else:
                 return 0
         except Exception as e: 
-            print(e)
+            current_app.logger.error(e)
             return -1

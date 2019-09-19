@@ -5,7 +5,7 @@
 :date: 2019-09-05
 """
 
-from flask import Blueprint
+from flask import Blueprint, current_app
 from utils.util import Util
 from utils.json_response import JsonResponse
 
@@ -26,5 +26,5 @@ def update_bucket():
         result = 1
         return JsonResponse.response(code=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)

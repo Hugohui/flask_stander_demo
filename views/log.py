@@ -6,7 +6,7 @@
 :desc: Happy teacher's day!
 """
 
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from models.log import LogModel
 from utils.json_response import JsonResponse
 
@@ -24,5 +24,5 @@ def get_record():
         result = LogModel.get_list(user_id, int(page))
         return JsonResponse.response(data=result)
     except Exception as e:
-        print(e)
+        current_app.logger.error(e)
         return JsonResponse.response(code=-1)
