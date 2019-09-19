@@ -7,7 +7,7 @@
 """
 
 IS_DEBUG = False
-PORT = 5203
+PORT = 5200
 
 # 是否开启扫码登陆
 FORCE_LOGIN = True
