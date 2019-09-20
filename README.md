@@ -56,8 +56,6 @@ venv/bin/python run.py
 http://liquid-h5.oss-cn-beijing.aliyuncs.com/ab_test/index.html
 ```
 
-
-
 #### gRPC服务
 ##### 生成
 - install gRPC
@@ -84,4 +82,33 @@ nohup venv/bin/python stragegy_grpc_server.py &
 # 具体调用实现：stragegy_grpc_client.py
 ```
 
+#### Docker
+如果对docker不了解，请先学习[Docker 入门教程](http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html)
+##### 打包镜像
+```bash
+docker image build -t [imageName] .
+```
 
+##### 将镜像push到镜像仓库
+```bash
+docker image push [username]/[repository]:[tag]
+```
+
+##### 拉取镜像到机器
+```bash
+docker image pull [username]/[repository]:[tag]
+```
+
+##### 平台服务容器
+```bash
+docker container run -p 5200:5200 [imageName] python run.py
+# 或者守护进程
+docker container run -d -p 5200:5200 [imageName] python run.py
+```
+
+#### gRPC服务容器
+```bash
+docker container run -p 50051:50051 [imageName] python stragegy_grpc_server.py
+# 或者守护进程
+docker container run -d -p 50051:50051 [imageName] python stragegy_grpc_server.py
+```
