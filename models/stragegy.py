@@ -256,12 +256,10 @@ class StragegyModel(object):
         :param md5_value: md5值
         """
         try:
-            t_status = test_col.find_one({
+            t_data = test_col.find_one({
                 "_id": test_id
-            }).get("t_status")
-            if t_status == 0:
-                return "fail"
-
+            })
+            
             data = bucket_col.find_one({
                 "t_id": test_id,
                 "section_min": {
@@ -272,9 +270,22 @@ class StragegyModel(object):
                 }
             })
             if data:
-                return data.get("s_id")
+                result = {
+                    "code": 1,
+                    "message": "成功",
+                    "data": data.get("s_id")
+                }
+                return result
             else:
-                return "fail"
+                result = {
+                    "code": -1003,
+                    "message": "分桶区间未定义"
+                }
+                return result
         except Exception as e:
             current_app.logger.error(e)
-            return 0            
+            result = {
+                    "code": -1,
+                    "message": "系统内部错误"
+            }
+            return result

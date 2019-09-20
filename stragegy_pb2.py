@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0estragegy.proto\"-\n\nGetRequest\x12\x0e\n\x06md5_id\x18\x01 \x01(\t\x12\x0f\n\x07test_id\x18\x02 \x01(\t\"\x1f\n\x08GetReply\x12\x13\n\x0bstragegy_id\x18\x01 \x01(\t23\n\x08Stragegy\x12\'\n\x0bGetStragegy\x12\x0b.GetRequest\x1a\t.GetReply\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0estragegy.proto\"-\n\nGetRequest\x12\x0e\n\x06md5_id\x18\x01 \x01(\t\x12\x0f\n\x07test_id\x18\x02 \x01(\t\"\x1a\n\x08GetReply\x12\x0e\n\x06result\x18\x01 \x01(\t23\n\x08Stragegy\x12\'\n\x0bGetStragegy\x12\x0b.GetRequest\x1a\t.GetReply\"\x00\x62\x06proto3')
 )
 
 
@@ -72,7 +72,7 @@ _GETREPLY = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='stragegy_id', full_name='GetReply.stragegy_id', index=0,
+      name='result', full_name='GetReply.result', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -91,7 +91,7 @@ _GETREPLY = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=65,
-  serialized_end=96,
+  serialized_end=91,
 )
 
 DESCRIPTOR.message_types_by_name['GetRequest'] = _GETREQUEST
@@ -120,8 +120,8 @@ _STRAGEGY = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=98,
-  serialized_end=149,
+  serialized_start=93,
+  serialized_end=144,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetStragegy',

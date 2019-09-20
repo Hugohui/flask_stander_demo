@@ -184,10 +184,40 @@ class TestsModel(object):
             },{
                 "t_str": 1
             })
-            if data:
-                return data.get("t_str")
+
+            # 实验不存在
+            if not data:
+                result = {
+                    "code": -1001,
+                    "message": "实验不存在"
+                }
+                return result
+
+            # 实验已停用
+            if data.get("t_status") == 0:
+                result = {
+                    "code": -1002,
+                    "message": "实验已停用"
+                }
+                return result
+
+            if not data.get("t_str") is None:
+                result = {
+                    "code": 1,
+                    "message": "成功",
+                    "data": data.get("t_str")
+                }
+                return result
             else:
-                return 0
+                result = {
+                    "code": -1004,
+                    "message": "获取加盐字符失败"
+                }
+                return result
         except Exception as e:
             current_app.logger.error(e)
-            return 0
+            result = {
+                "code": -1,
+                "message": "系统内部错误"
+            }
+            return result
