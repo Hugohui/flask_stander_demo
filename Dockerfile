@@ -8,3 +8,5 @@ RUN pip install -r requirements.txt
 
 # web server config
 EXPOSE 5200 50051
+
+CMD [ "sh", "setup.sh" ]

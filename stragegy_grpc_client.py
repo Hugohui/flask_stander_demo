@@ -11,11 +11,11 @@ import stragegy_pb2_grpc
 
 def run():
     # 连接 rpc 服务器
-    # channel = grpc.insecure_channel('ab-test-grpc:50050')
-    channel = grpc.insecure_channel('112.126.118.70:50050')
+    channel = grpc.insecure_channel('localhost:50051')
+    # channel = grpc.insecure_channel('112.126.118.70:50050')
     # 调用 rpc 服务
     stub = stragegy_pb2_grpc.StragegyStub(channel)
-    response = stub.GetStragegy(stragegy_pb2.GetRequest(md5_id='rC8epZTEcw7cSykzvqftiS5iEiE', test_id="28de117a-dad4-11e9-bfd2-0242ac120003"))
+    response = stub.GetStragegy(stragegy_pb2.GetRequest(md5_id='rC8epZTEcw7cSykzvqftiS5iEiE', test_id="850d76f4-fc8d-11e9-b3d1-a2fd44958ee9"))
     print("Greeter client received result: " + response.result)
 
 if __name__ == '__main__':
