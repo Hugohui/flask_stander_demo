@@ -33,5 +33,7 @@ DINGDING_SRC = "http://10.0.100.76:8080" if IS_DEBUG else "http://liquid-h5.oss-
 # 分配的key
 DINGDING_KEY = "ABTest-devFhWCJi32po56HvoKJ"
 
-# 权限后台地址
-IF_PERMISSION_URL = "http://scancode.liquidnetwork.com"
+# 权限后台地址ECS部署
+# IF_PERMISSION_URL = "http://scancode.liquidnetwork.com"
+# 权限后台地址k8s部署
+IF_PERMISSION_URL = "http://base-login:80"
