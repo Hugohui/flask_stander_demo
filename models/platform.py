@@ -11,6 +11,8 @@ import uuid
 
 platform_col  = db["platforms"]
 test_col = db["tests"]
+stragegy_col = db["stragegies"]
+bucket_col = db["buckets"]
 log_col = db["logs"]
 
 class PlatformModel(object):
@@ -113,7 +115,10 @@ class PlatformModel(object):
             data = platform_col.remove({
                 "_id": p_id
             })
-            if data["ok"] == 1:
+            test_data = test_col.remove({
+                "p_id": p_id
+            })
+            if data["ok"] == 1 and test_data["ok"] == 1:
                 log_str = "应用ID：{}；".format(p_id)
                 log_result = LogModel.add_log("删除应用", log_str, user_id, "delete")
                 return 1
