@@ -35,6 +35,13 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
                     "code": -1000,
                     "message": "参数错误"
                 }
+                logger_data = {
+                    "method": "GetStragegy",
+                    "test_id": test_id,
+                    "md5_id": md5_id,
+                    "query_result": result
+                }
+                logger.info(json.dumps(logger_data))
                 return stragegy_pb2.GetReply(result = json.dumps(result))
 
             # redis
@@ -48,6 +55,13 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
                     "message": "获取成功",
                     "data": str(redis_value)
                 }
+                logger_data = {
+                    "method": "GetStragegy",
+                    "test_id": test_id,
+                    "md5_id": md5_id,
+                    "query_result": result
+                }
+                logger.info(json.dumps(logger_data))
                 return stragegy_pb2.GetReply(result = json.dumps(result))
  
             # 获取加盐字符取模
@@ -55,6 +69,13 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
 
             # 加盐字符串查询和实验状态判断
             if md5_str.get("code") != 1:
+                logger_data = {
+                    "method": "GetStragegy",
+                    "test_id": test_id,
+                    "md5_id": md5_id,
+                    "query_result": md5_str
+                }
+                logger.info(json.dumps(logger_data))
                 return stragegy_pb2.GetReply(result = json.dumps(md5_str))
 
             md5_value = Util.id_md5(md5_id, md5_str.get("data"))
@@ -85,6 +106,11 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
                 "code": -1,
                 "message": "系统内部错误"
             }
+            logger_data = {
+                "method": "GetStragegy",
+                "query_result": result
+            }
+            logger.info(json.dumps(logger_data))
             return stragegy_pb2.GetReply(result = json.dumps(result))
 
 def serve():
