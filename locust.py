@@ -23,15 +23,19 @@ def run(l):
 
 class UserTasks(TaskSet):
     # 列出需要测试的任务形式一
-    tasks = [run]
+    # tasks = [run]
     # 列出需要测试的任务形式二 
-    # @task
-    # def page404(self):
-    #     self.client.get("/does_not_exist")
+    @task
+    def page(self):
+        self.client.post("/get_build_apk_status",{"bz": "Lightningbox"})
+
+    
 
 
     
 class WebsiteUser(HttpLocust):
+    # 要测试的地址
+    # host = "http://version.admin.liquidnetwork.com"
     host = "http://127.0.0.1:8089"
     min_wait = 2000
     max_wait = 5000
