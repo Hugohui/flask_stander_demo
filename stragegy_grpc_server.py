@@ -52,8 +52,8 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
             if redis_value:
                 result = {
                     "code": 1,
-                    "message": "获取成功",
-                    "data": str(redis_value)
+                    "message": "成功",
+                    "data": redis_value.decode()
                 }
                 logger_data = {
                     "method": "GetStragegy",
