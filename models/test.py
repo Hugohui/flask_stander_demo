@@ -127,6 +127,7 @@ class TestsModel(object):
                     }
             })
             if data["ok"] == 1:
+                test_status = "启用" if int(status) == 1 else "停用"
                 log_str = "实验ID：{}；状态：{}".format(t_id, int(status))
                 log_result = LogModel.add_log("启用/停用实验", log_str, user_id, "update")
                 return 1
@@ -181,8 +182,6 @@ class TestsModel(object):
         try:
             data = test_col.find_one({
                 "_id": test_id
-            },{
-                "t_str": 1
             })
 
             # 实验不存在
