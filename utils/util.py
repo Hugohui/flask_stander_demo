@@ -41,6 +41,6 @@ class Util(object):
         :param str: 加盐字符串
         :return: 取模的结果
         """
-        md5_int = int(hashlib.md5(id.encode("utf-8")).hexdigest(), 16)
+        md5_int = int(hashlib.md5((str(id)+md5_str).encode("utf-8")).hexdigest(), 16)
         result = md5_int % bucket_num
         return int(result)
