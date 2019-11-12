@@ -23,11 +23,11 @@ def run(l):
 
 class UserTasks(TaskSet):
     # 列出需要测试的任务形式一
-    # tasks = [run]
+    tasks = [run]
     # 列出需要测试的任务形式二 
-    @task
-    def page(self):
-        self.client.post("/get_build_apk_status",{"bz": "Lightningbox"})
+    # @task
+    # def page(self):
+    #     self.client.post("/get_build_apk_status",{"bz": "Lightningbox"})
 
     
 

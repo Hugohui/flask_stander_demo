@@ -39,7 +39,8 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
                     "method": "GetStragegy",
                     "test_id": test_id,
                     "md5_id": md5_id,
-                    "query_result": result
+                    "query_result_code": -1000,
+                    "query_result_message": "参数错误"
                 }
                 logger.info(json.dumps(logger_data))
                 return stragegy_pb2.GetReply(result = json.dumps(result))
@@ -59,7 +60,9 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
                     "method": "GetStragegy",
                     "test_id": test_id,
                     "md5_id": md5_id,
-                    "query_result": result
+                    "query_result_code": result.get("code"),
+                    "query_result_message": result.get("message"),
+                    "query_result_data": result.get("data")
                 }
                 logger.info(json.dumps(logger_data))
                 return stragegy_pb2.GetReply(result = json.dumps(result))
@@ -73,7 +76,8 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
                     "method": "GetStragegy",
                     "test_id": test_id,
                     "md5_id": md5_id,
-                    "query_result": md5_str
+                    "query_result_code": md5_str.get("code"),
+                    "query_result_message": md5_str.get("message")
                 }
                 logger.info(json.dumps(logger_data))
                 return stragegy_pb2.GetReply(result = json.dumps(md5_str))
@@ -94,9 +98,13 @@ class Stragegy(stragegy_pb2_grpc.StragegyServicer):
                 "method": "GetStragegy",
                 "test_id": test_id,
                 "md5_id": md5_id,
-                "md5_str": md5_str,
+                "md5_str_code": md5_str.get("code"),
+                "md5_str_message": md5_str.get("message"),
+                "md5_str_data": md5_str.get("data"),
                 "md5_value": md5_value,
-                "query_result": query_result
+                "query_result_code": query_result.get("code"),
+                "query_result_message": query_result.get("message"),
+                "query_result_data": query_result.get("data")
             }
             logger.info(json.dumps(logger_data))
 

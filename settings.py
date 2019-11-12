@@ -15,7 +15,7 @@ FORCE_LOGIN = True
 # MongoDB
 # 外网 "mongodb://admin:n3tw0rk@dds-2ze4b601d1f5a9141374-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze4b601d1f5a9142107-pub.mongodb.rds.aliyuncs.com:3717/ab_test?replicaSet=mgset-16573833"
 # 内网 "mongodb://admin:n3tw0rk@dds-2ze4b601d1f5a9141.mongodb.rds.aliyuncs.com:3717,dds-2ze4b601d1f5a9142.mongodb.rds.aliyuncs.com:3717/ab_test?replicaSet=mgset-16573833"
-MONGO_HOST = "127.0.0.1" if IS_DEBUG else "mongodb://admin:n3tw0rk@dds-2ze4b601d1f5a9141.mongodb.rds.aliyuncs.com:3717,dds-2ze4b601d1f5a9142.mongodb.rds.aliyuncs.com:3717/ab_test?replicaSet=mgset-16573833"
+MONGO_HOST = "mongodb://admin:n3tw0rk@dds-2ze4b601d1f5a9141374-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze4b601d1f5a9142107-pub.mongodb.rds.aliyuncs.com:3717/ab_test?replicaSet=mgset-16573833" if IS_DEBUG else "mongodb://admin:n3tw0rk@dds-2ze4b601d1f5a9141.mongodb.rds.aliyuncs.com:3717,dds-2ze4b601d1f5a9142.mongodb.rds.aliyuncs.com:3717/ab_test?replicaSet=mgset-16573833"
 
 # redis
 REDIS_HOST = "127.0.0.1" if IS_DEBUG else "r-2zes5pw8ebs7v11z20.redis.rds.aliyuncs.com"
